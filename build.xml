@@ -1,0 +1,53 @@
+<project name="javasol" default="dist" basedir=".">
+
+  <property name="src" value="src"/>
+  <property name="lib" value="lib"/>
+  <property name="properties" value="properties"/>
+  <property name="javadoc" value="doc/javadoc"/>
+  <property name="classes" value="classes"/>
+  <property name="dist" value="dist/javasol"/>
+  <property name="build.compiler" value="jikes"/>
+  <property name="build.compiler.emacs" value="true"/>
+
+  <path id="project.class.path">
+  	<pathelement path="${classpath}"/>
+      <fileset dir="${lib}">
+        <include name="**/*.jar"/>
+      </fileset>
+      <pathelement location="${classes}"/>
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${classes}"/>
+    <javac srcdir="${src}" destdir="${classes}" deprecation="true">
+      <classpath refid="project.class.path"/>
+    </javac>
+  </target>
+
+  <target name="javadoc" depends="compile">
+    <javadoc sourcepath="${src}" destdir="${javadoc}" packagenames="com.*" author="true" version="true" use="true" package="true" windowtitle="KanaSensei API" doctitle="KanaSensei">
+      <classpath refid="project.class.path"/>
+    </javadoc>
+  </target>
+
+  <target name="dist" depends="compile">
+  	<jar jarfile="${dist}/jar/img.jar" basedir="img"/>
+  	<jar jarfile="${dist}/jar/classes.jar" basedir="classes"/>
+  	<jar jarfile="${dist}/jar/properties.jar" basedir="properties"/>
+    <copy todir="${dist}/jar">
+      <fileset dir="${lib}">
+        <include name="**/*.jar"/>
+      </fileset>
+    </copy>  
+  </target>
+
+  <target name="clean">
+    <delete dir="${classes}"/>
+    <delete>
+      <fileset dir="${dist}/jar">
+        <include name="**/*.jar"/>
+      </fileset>
+    </delete>  
+  </target>
+</project>
+

@@ -27,8 +27,8 @@ import java.awt.*;
  */
 public abstract class Card {
 
-	public static int DEFAULT_HEIGHT = 129;//123;//124;
-	public static int DEFAULT_WIDTH = 86;//80;//82;
+    public static int DEFAULT_HEIGHT = 129;//123;//124;
+    public static int DEFAULT_WIDTH = 86;//80;//82;
 
     public abstract String toString();
     public abstract void paint( Graphics g );
@@ -55,6 +55,16 @@ public abstract class Card {
         faceDown = true;
     }
 
+    /** 
+     * Flips the card.
+     */
+    public void flip() {
+        if( isFaceDown() )
+            turnFaceUp();
+        else
+            turnFaceDown();
+    }
+
     /**
      * @return Location of the card.
      */
@@ -78,15 +88,15 @@ public abstract class Card {
     }
 
     public Dimension getSize() {
-    	return( size );
+        return( size );
     }
 
     public void setSize( int width, int height ) {
-    	size = new Dimension( width, height );
+        size = new Dimension( width, height );
     }
 
     public void setSize( Dimension dim ) {
-    	size = new Dimension( dim.width, dim.height );
+        size = new Dimension( dim.width, dim.height );
     }
 
     public boolean contains( Point p ) {
@@ -94,7 +104,7 @@ public abstract class Card {
         return( rect.contains( p ) );
     }
 
-    private   boolean     	faceDown;
-    private   Point       	location;
-    private	  Dimension		size = new Dimension( DEFAULT_WIDTH, DEFAULT_HEIGHT );
+    private   boolean       faceDown;
+    private   Point         location;
+    private   Dimension     size = new Dimension( DEFAULT_WIDTH, DEFAULT_HEIGHT );
 }

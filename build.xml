@@ -42,6 +42,16 @@
     </copy>  
   </target>
 
+  <target name="run" depends="dist">
+    <java classname="com.fbergeron.solitaire.Solitaire" fork="true">
+      <classpath>
+        <fileset dir="${dist}/jar">
+          <include name="**/*.jar"/>
+        </fileset>
+      </classpath>
+    </java>
+  </target>
+
   <target name="clean">
     <delete dir="${classes}"/>
     <delete>

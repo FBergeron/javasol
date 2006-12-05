@@ -11,6 +11,9 @@ It's also free.
 
 Once ant is installed, you just need to type, at the command line :
 
-/home/javasol$ ant
+/home/javasol$ ant run
 
+If everything works fine, the application should start right away.
+
+You can also double-click the file dist/javasol/index.html.  This should open the applet in your default browser.
 

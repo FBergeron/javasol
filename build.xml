@@ -10,7 +10,7 @@
   <property name="build.compiler.emacs" value="true"/>
 
   <path id="project.class.path">
-  	<pathelement path="${classpath}"/>
+    <pathelement path="${classpath}"/>
       <fileset dir="${lib}">
         <include name="**/*.jar"/>
       </fileset>
@@ -31,9 +31,10 @@
   </target>
 
   <target name="dist" depends="compile">
-  	<jar jarfile="${dist}/jar/img.jar" basedir="img"/>
-  	<jar jarfile="${dist}/jar/classes.jar" basedir="classes"/>
-  	<jar jarfile="${dist}/jar/properties.jar" basedir="properties"/>
+    <mkdir dir="${dist}/jar"/>
+    <jar jarfile="${dist}/jar/img.jar" basedir="img"/>
+    <jar jarfile="${dist}/jar/classes.jar" basedir="classes"/>
+    <jar jarfile="${dist}/jar/properties.jar" basedir="properties"/>
     <copy todir="${dist}/jar">
       <fileset dir="${lib}">
         <include name="**/*.jar"/>

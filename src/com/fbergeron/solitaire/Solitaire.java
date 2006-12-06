@@ -53,11 +53,11 @@ public class Solitaire extends Frame
 
     public static final Color TABLE_COLOR           = new Color( 0, 150, 0 );
 
-	public Solitaire( boolean isApplet )
-	{
-		super();
-		setLayout( new BorderLayout( 0, 0 ) );
-		setResizable( false );
+    public Solitaire( boolean isApplet )
+    {
+        super();
+        setLayout( new BorderLayout( 0, 0 ) );
+        setResizable( false );
 
         class LocaleListener implements ItemListener {
             public LocaleListener( Locale locale ) {
@@ -84,16 +84,16 @@ public class Solitaire extends Frame
             }
         }
 
-		//Menus
-		menubar = new MenuBar();
-		setMenuBar( menubar );
+        //Menus
+        menubar = new MenuBar();
+        setMenuBar( menubar );
 
-		//Menu Options
-		menuOptions = new Menu( "Options" );
-		menubar.add( menuOptions );
-		menuItemNewGame = new MenuItem( "NewGame");
-		menuItemNewGame.addActionListener( new NewGameListener() );
-		menuOptions.add( menuItemNewGame );
+        //Menu Options
+        menuOptions = new Menu( "Options" );
+        menubar.add( menuOptions );
+        menuItemNewGame = new MenuItem( "NewGame");
+        menuItemNewGame.addActionListener( new NewGameListener() );
+        menuOptions.add( menuItemNewGame );
 
         menuItemEnglish = new CheckboxMenuItem( "English" );
         menuItemEnglish.addItemListener( new LocaleListener( Locale.ENGLISH ) );
@@ -107,38 +107,38 @@ public class Solitaire extends Frame
         menuOptions.add( new MenuItem( "-" ) );
         menuOptions.add( menuLanguage );
 
-		//Menu Help
-		menuHelp = new Menu( "Help" );
-		menubar.add( menuHelp );
-		menuItemRules = new MenuItem( "Rules" );
-		menuItemRules.addActionListener( new RulesListener() );
-		menuItemAbout = new MenuItem( "About" );
-		menuItemAbout.addActionListener( new AboutListener() );
+        //Menu Help
+        menuHelp = new Menu( "Help" );
+        menubar.add( menuHelp );
+        menuItemRules = new MenuItem( "Rules" );
+        menuItemRules.addActionListener( new RulesListener() );
+        menuItemAbout = new MenuItem( "About" );
+        menuItemAbout.addActionListener( new AboutListener() );
         menuItemLicense = new MenuItem();
         menuItemLicense.addActionListener( new LicenseListener() );
-		menuHelp.add( menuItemRules );
-		menuHelp.add( new MenuItem( "-" ) );
-		menuHelp.add( menuItemAbout );
+        menuHelp.add( menuItemRules );
+        menuHelp.add( new MenuItem( "-" ) );
+        menuHelp.add( menuItemAbout );
         menuHelp.add( menuItemLicense );
 
-		//String backgroundImageName = "test";
-		//backgroundImage = Util.getImageResourceFile( "images/" + backgroundImageName + ".jpg", Solitaire.class );
+        //String backgroundImageName = "test";
+        //backgroundImage = Util.getImageResourceFile( "images/" + backgroundImageName + ".jpg", Solitaire.class );
 
-		//Table
-		table = new Table();
-		add("Center", table);
-		MouseManager mouseManager = new MouseManager();
-		table.addMouseListener( mouseManager );
-		table.addMouseMotionListener( mouseManager );
+        //Table
+        table = new Table();
+        add("Center", table);
+        MouseManager mouseManager = new MouseManager();
+        table.addMouseListener( mouseManager );
+        table.addMouseMotionListener( mouseManager );
 
-		setSize((ClassicCard.DEFAULT_WIDTH + 5) * SOL_STACK_CNT + 10 + getInsets().left + getInsets().right + 3,560);
-        setVisible( true );
+        setSize((ClassicCard.DEFAULT_WIDTH + 5) * SOL_STACK_CNT + 10 + getInsets().left + getInsets().right + 3,560);
 
         addWindowListener(
             new SolitaireWindowManager( this,
                 isApplet ? WindowManager.HIDE_ON_CLOSE : WindowManager.EXIT_ON_CLOSE ) );
 
-	    newGame();
+        newGame();
+        setVisible( true );
     }
 
     /**
@@ -147,15 +147,15 @@ public class Solitaire extends Frame
      * @see java.awt.Component#isVisible
      */
     public void setVisible(boolean b)
-	{
-	    Dimension scrSize = getToolkit().getScreenSize();
-	    Dimension size = getSize();
-		if(b)
-		{
-			setLocation( (scrSize.width - size.width) / 2, (scrSize.height - size.height) / 2 );
-		}
-		super.setVisible(b);
-	}
+    {
+        Dimension scrSize = getToolkit().getScreenSize();
+        Dimension size = getSize();
+        if(b)
+        {
+            setLocation( (scrSize.width - size.width) / 2, (scrSize.height - size.height) / 2 );
+        }
+        super.setVisible(b);
+    }
 
     /**
      * Sets the locale.
@@ -164,7 +164,7 @@ public class Solitaire extends Frame
     public void setLocale( Locale locale ) {
         super.setLocale( locale );
         
-		resBundle = ResourceBundle.getBundle( Solitaire.class.getName() + "Ress", locale );
+        resBundle = ResourceBundle.getBundle( Solitaire.class.getName() + "Ress", locale );
         
         menuOptions.setLabel( resBundle.getString( "Options" ) );
         menuItemNewGame.setLabel( resBundle.getString( "NewGame" ) );
@@ -330,13 +330,13 @@ public class Solitaire extends Frame
         }
     }
 
-	class NewGameListener implements ActionListener {
+    class NewGameListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             newGame();
         }
     }
 
-	class RulesListener implements ActionListener {
+    class RulesListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if( frameRules == null )
                 frameRules = new FrameRules();
@@ -423,9 +423,9 @@ public class Solitaire extends Frame
 
     class Table extends Canvas
     {
-    	public void update( Graphics g ) {
-    	    paint( g );
-    	}
+        public void update( Graphics g ) {
+            paint( g );
+        }
 
         public void paint( Graphics g ) {
             //Create offscreen
@@ -475,9 +475,9 @@ public class Solitaire extends Frame
             g.drawImage( offscreen, 0, 0, this );
         }
 
-    	public void destroy() {
-    	    offscreenGr.dispose();
-    	}
+        public void destroy() {
+            offscreenGr.dispose();
+        }
 
         private Image       offscreen;
         private Graphics    offscreenGr;

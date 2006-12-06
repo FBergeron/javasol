@@ -95,17 +95,7 @@ public class Solitaire extends Frame
         menuItemNewGame.addActionListener( new NewGameListener() );
         menuOptions.add( menuItemNewGame );
 
-        menuItemEnglish = new CheckboxMenuItem( "English" );
-        menuItemEnglish.addItemListener( new LocaleListener( Locale.ENGLISH ) );
-        menuItemFrench = new CheckboxMenuItem( "French" );
-        menuItemFrench.addItemListener( new LocaleListener( Locale.FRENCH ) );
 
-        menuLanguage = new Menu( "Language" );
-        menuLanguage.add( menuItemEnglish );
-        menuLanguage.add( menuItemFrench );
-
-        menuOptions.add( new MenuItem( "-" ) );
-        menuOptions.add( menuLanguage );
 
         //Menu Help
         menuHelp = new Menu( "Help" );
@@ -120,6 +110,13 @@ public class Solitaire extends Frame
         menuHelp.add( new MenuItem( "-" ) );
         menuHelp.add( menuItemAbout );
         menuHelp.add( menuItemLicense );
+        menuHelp.add( new MenuItem( "-" ) );
+        menuItemEnglish = new CheckboxMenuItem( "English" );
+        menuItemEnglish.addItemListener( new LocaleListener( Locale.ENGLISH ) );
+        menuItemFrench = new CheckboxMenuItem( "French" );
+        menuItemFrench.addItemListener( new LocaleListener( Locale.FRENCH ) );
+        menuHelp.add( menuItemEnglish );
+        menuHelp.add( menuItemFrench );
 
         //String backgroundImageName = "test";
         //backgroundImage = Util.getImageResourceFile( "images/" + backgroundImageName + ".jpg", Solitaire.class );
@@ -171,7 +168,6 @@ public class Solitaire extends Frame
         menuHelp.setLabel( resBundle.getString( "Help" ) );
         menuItemRules.setLabel( resBundle.getString( "Rules" ) );
         menuItemAbout.setLabel( resBundle.getString( "About" ) );
-        menuLanguage.setLabel( resBundle.getString( "Language" ) );
         menuItemLicense.setLabel( resBundle.getString( "License" ) );
         menuItemEnglish.setLabel( resBundle.getString( "English" ) );
         menuItemFrench.setLabel( resBundle.getString( "French" ) );
@@ -514,7 +510,6 @@ public class Solitaire extends Frame
 
     private MenuBar             menubar;
     private Menu                menuOptions;
-    private Menu                menuLanguage;
     private Menu                menuHelp;
     private MenuItem            menuItemNewGame;
     private MenuItem            menuItemRules;

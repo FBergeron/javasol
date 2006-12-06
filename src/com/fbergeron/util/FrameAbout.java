@@ -27,11 +27,11 @@ import java.util.*;
  */
 public class FrameAbout extends Frame
 {
-	/**
-	 * Constructor for FrameAbout.
-	 */
-	public FrameAbout()
-	{
+    /**
+     * Constructor for FrameAbout.
+     */
+    public FrameAbout()
+    {
         setLayout( new BorderLayout() );
         setBackground( Color.white );
         
@@ -54,9 +54,9 @@ public class FrameAbout extends Frame
         add( _panelPicture, BorderLayout.CENTER );
         add( _panelAuthor, BorderLayout.SOUTH );
 
-		addWindowListener( new WindowManager( this, WindowManager.HIDE_ON_CLOSE ) );
+        addWindowListener( new WindowManager( this, WindowManager.HIDE_ON_CLOSE ) );
         pack();
-	}
+    }
 
     public Insets getInsets() {
         Insets insets = super.getInsets();
@@ -72,15 +72,15 @@ public class FrameAbout extends Frame
      * @see java.awt.Component#isVisible
      */
     public void setVisible(boolean b)
-	{
-	    Dimension scrSize = getToolkit().getScreenSize();
-	    Dimension size = getSize();
-		if(b)
-		{
-			setLocation( (scrSize.width - size.width) / 2, (scrSize.height - size.height) / 2 );
-		}
-		super.setVisible(b);
-	}
+    {
+        Dimension scrSize = getToolkit().getScreenSize();
+        Dimension size = getSize();
+        if(b)
+        {
+            setLocation( (scrSize.width - size.width) / 2, (scrSize.height - size.height) / 2 );
+        }
+        super.setVisible(b);
+    }
 
     /** 
      * Sets the locale of the Frame.
@@ -91,28 +91,24 @@ public class FrameAbout extends Frame
 
         _resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
         
-        DateFormat df = DateFormat.getDateInstance( DateFormat.LONG, locale );
-        Calendar cal = Calendar.getInstance();
-        cal.set( 2002, 4, 18 );
-
         _labelVersion.setText( (String)_resBundle.getString( "Version" ) + " " + 
             (String)_resBundle.getString( "VersionNumber" ) );
         _labelAuthor.setText( (String)_resBundle.getString( "By" ) +" : " + (String)_resBundle.getString( "Author" ) );
-        _labelDate.setText( "© " + df.format( cal.getTime() ) );
+        _labelDate.setText( "© 2002-2006" );
         _labelEmail.setText( _resBundle.getString( "Email" ) );
         _labelWebSite.setText( _resBundle.getString( "WebSite" ) );
 
-		setTitle( _resBundle.getString( "About" ) + " " + _resBundle.getString( "Solitaire" ) );
+        setTitle( _resBundle.getString( "About" ) + " " + _resBundle.getString( "Solitaire" ) );
     }
 
-	private Label       _labelVersion;
-	private ImagePanel  _panelPicture;
-	private Panel       _panelAuthor;
-	private Label       _labelDate;
-	private Label       _labelAuthor;
-	private Label       _labelEmail;
+    private Label       _labelVersion;
+    private ImagePanel  _panelPicture;
+    private Panel       _panelAuthor;
+    private Label       _labelDate;
+    private Label       _labelAuthor;
+    private Label       _labelEmail;
     private Label       _labelWebSite;
-	
-	private ResourceBundle _resBundle;
+    
+    private ResourceBundle _resBundle;
 
 }

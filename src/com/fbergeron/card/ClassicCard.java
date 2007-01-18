@@ -22,6 +22,7 @@ import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
 import java.util.*;
+import java.awt.geom.RoundRectangle2D;
 
 import com.fbergeron.util.*;
 
@@ -33,7 +34,8 @@ import com.fbergeron.util.*;
 public class ClassicCard extends Card {
 
     public static final String  STRING_HIDDEN  = "X";
-
+    
+    public static final int     BORDER_ARC = 20;
     public static final Color   CARD_COLOR = Color.blue;
 
     /**
@@ -43,17 +45,17 @@ public class ClassicCard extends Card {
      * @param suit  The suit of the card.
      */
     public ClassicCard( Value value, Suit suit ) {
-    	super();
+        super();
         _suit = suit;
         _value = value;
-		StringBuffer imgName = new StringBuffer( _suit.toString() );
-		imgName.append( "/" ).append( _value.toString() );
-		_imgName = imgName.toString();
+        StringBuffer imgName = new StringBuffer( _suit.toString() );
+        imgName.append( "/" ).append( _value.toString() );
+        _imgName = imgName.toString();
         turnFaceDown();
     }
 
     public void setImageObserver( ImageObserver imgObserver ) {
-    	_imgObserver = imgObserver;
+        _imgObserver = imgObserver;
     }
 
     /**
@@ -101,6 +103,11 @@ public class ClassicCard extends Card {
         Point location = getLocation();
 
         //Background
+        RoundRectangle2D border = new RoundRectangle2D.Double(
+            location.x, location.y, getSize().width - 1, getSize().height - 1, BORDER_ARC, BORDER_ARC);
+
+        g.setClip(border); // Don't draw outside the lines
+
         if( isFaceDown() ) {
             g.setColor( CARD_COLOR );
             g.fillRect( location.x, location.y, getSize().width - 1, getSize().height - 1 );
@@ -108,29 +115,17 @@ public class ClassicCard extends Card {
         else {
             g.setColor( Color.white );
             g.fillRect( location.x, location.y, getSize().width - 1, getSize().height - 1 );
+
+            Image img = (Image)images.get( _imgName );
+            if( img != null && _imgObserver != null )
+                g.drawImage( img, location.x + 3, location.y + 3, _imgObserver );
         }
 
-        //Frame
+        g.setClip(null); // OK, you can draw anywhere again
+
+        // Frame
         g.setColor( Color.black );
-        g.drawRect( location.x, location.y, getSize().width - 1, getSize().height - 1 );
-
-        //Card
-        if ( !isFaceDown() ) {
-			Image img = (Image)images.get( _imgName );
-			if( img != null && _imgObserver != null )
-				g.drawImage( img, location.x + 3, location.y + 3, _imgObserver );
-
-            //Round edges
-            g.setColor( Color.black );
-            g.drawLine( location.x, location.y, location.x + getSize().width - 1, location.y );
-            g.drawLine( location.x, location.y + getSize().height - 1, location.x + getSize().width - 1, location.y + getSize().height - 1 );
-            g.drawLine( location.x, location.y, location.x, location.y + getSize().height - 1 );
-            g.drawLine( location.x + getSize().width - 1, location.y, location.x + getSize().width - 1, location.y + getSize().height - 1 );
-			g.drawLine( location.x + 1, location.y + 1, location.x + 1, location.y + 1 );
-			g.drawLine( location.x + getSize().width - 2, location.y + 1, location.x + getSize().width - 2, location.y + 1 );
-			g.drawLine( location.x + 1, location.y + getSize().height - 2, location.x + 1, location.y + getSize().height - 2 );
-			g.drawLine( location.x + getSize().width - 2, location.y + getSize().height - 2, location.x + getSize().width - 2, location.y + getSize().height - 2 );
-        }
+        g.drawRoundRect(location.x, location.y, getSize().width - 1, getSize().height - 1, BORDER_ARC, BORDER_ARC);
     }
 
     static private Hashtable    images = new Hashtable();
@@ -138,29 +133,29 @@ public class ClassicCard extends Card {
 
     //Preloading of the card images.
     static {
-    	for( int i = 0; i < Suit.suits.length; i++ ) {
-    		for( int j = 0; j < Value.values.length; j++ ) {
-    			StringBuffer imgFilename = new StringBuffer( Suit.suits[ i ].toString() );
-    			imgFilename.append( "/" ).append( Value.values[ j ].toString() );
-    			String imgName = imgFilename.toString();
-    			imgFilename.append( ".png" );
-			    Image img = Util.getImageResourceFile( imgFilename.toString(), ClassicCard.class );
-			    tracker.addImage( img, 0 );
-	            images.put( imgName, img );
-    		}
-    	}
-		try {
-			tracker.waitForID( 0 );
-		}
-		catch( InterruptedException e ) {
-			// Ignore the interruption.
-		}
+        for( int i = 0; i < Suit.suits.length; i++ ) {
+            for( int j = 0; j < Value.values.length; j++ ) {
+                StringBuffer imgFilename = new StringBuffer( Suit.suits[ i ].toString() );
+                imgFilename.append( "/" ).append( Value.values[ j ].toString() );
+                String imgName = imgFilename.toString();
+                imgFilename.append( ".png" );
+                Image img = Util.getImageResourceFile( imgFilename.toString(), ClassicCard.class );
+                tracker.addImage( img, 0 );
+                images.put( imgName, img );
+            }
+        }
+        try {
+            tracker.waitForID( 0 );
+        }
+        catch( InterruptedException e ) {
+            // Ignore the interruption.
+        }
     }
 
-    private Suit        	_suit;
-    private Value       	_value;
-    private String			_imgName;
+    private Suit            _suit;
+    private Value           _value;
+    private String          _imgName;
 
-    private ImageObserver	_imgObserver;
-    private Image       	_img;
+    private ImageObserver   _imgObserver;
+    private Image           _img;
 }

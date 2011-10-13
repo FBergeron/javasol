@@ -6,7 +6,6 @@
   <property name="javadoc" value="doc/javadoc"/>
   <property name="classes" value="classes"/>
   <property name="dist" value="dist/javasol"/>
-  <property name="build.compiler" value="jikes"/>
   <property name="build.compiler.emacs" value="true"/>
 
   <path id="project.class.path">

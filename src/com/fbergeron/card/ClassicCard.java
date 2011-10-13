@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002  FrÃ©dÃ©ric Bergeron (fbergeron@users.sourceforge.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,22 +45,22 @@ public class ClassicCard extends Card {
      * @param suit  The suit of the card.
      */
     public ClassicCard (ClassicCard card){
-    	super();
-    	this._img=card._img;
-    	this._imgName=card._imgName;
-    	this._imgObserver=card._imgObserver;
-    	this._suit=card._suit;
-    	this._value=card._value;
-    	this.setLocation(card.getLocation());
-    	this.setSize(card.getSize());
-    	if (card.isFaceDown()){
-    		this.turnFaceDown();
-    	}else
-    	{
-    		this.turnFaceUp();
-    	}
+        super();
+        this._img=card._img;
+        this._imgName=card._imgName;
+        this._imgObserver=card._imgObserver;
+        this._suit=card._suit;
+        this._value=card._value;
+        this.setLocation(card.getLocation());
+        this.setSize(card.getSize());
+        if (card.isFaceDown()){
+            this.turnFaceDown();
+        }else
+        {
+            this.turnFaceUp();
+        }
 
-    	
+        
     }
     public ClassicCard( Value value, Suit suit ) {
         super();

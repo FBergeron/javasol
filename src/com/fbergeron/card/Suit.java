@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002  FrÃ©dÃ©ric Bergeron (fbergeron@users.sourceforge.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,21 +25,21 @@ package com.fbergeron.card;
  */
 public class Suit {
 
-	public static final Suit HEART = new Suit( "H" );
-	public static final Suit SPADE = new Suit( "S" );
-	public static final Suit DIAMOND = new Suit( "D" );
-	public static final Suit CLUB = new Suit( "C" );
+    public static final Suit HEART = new Suit( "H" );
+    public static final Suit SPADE = new Suit( "S" );
+    public static final Suit DIAMOND = new Suit( "D" );
+    public static final Suit CLUB = new Suit( "C" );
 
-	public static final Suit[] suits = { HEART, SPADE, DIAMOND, CLUB };
+    public static final Suit[] suits = { HEART, SPADE, DIAMOND, CLUB };
 
-	private Suit( String toString ) {
-		_toString = toString;
-	}
+    private Suit( String toString ) {
+        _toString = toString;
+    }
 
-	public String toString() {
-		return( _toString );
-	}
+    public String toString() {
+        return( _toString );
+    }
 
-	private String _toString;
+    private String _toString;
 
 }

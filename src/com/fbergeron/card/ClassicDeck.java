@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002  FrÃ©dÃ©ric Bergeron (fbergeron@users.sourceforge.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,11 +30,11 @@ public class ClassicDeck extends Deck {
     /**
      * Creates a stack of 52 cards.  No jokers yet!
      */
-	public ClassicDeck(){
-		
-	}
+    public ClassicDeck(){
+        
+    }
     public ClassicDeck( ImageObserver imgObserver ) {
-    	_imgObserver = imgObserver;
+        _imgObserver = imgObserver;
         buildCards();
     }
 
@@ -43,7 +43,7 @@ public class ClassicDeck extends Deck {
             for ( int value = 0; value < Value.values.length; value++ ) {
                 ClassicCard c = new ClassicCard( Value.values[ value ], Suit.suits[ suit ] );
                 if( _imgObserver != null )
-                	c.setImageObserver( _imgObserver );
+                    c.setImageObserver( _imgObserver );
                 push( c );
 
             }

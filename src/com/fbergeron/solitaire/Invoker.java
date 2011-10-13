@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002  FrÃ©dÃ©ric Bergeron (fbergeron@users.sourceforge.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,12 +23,12 @@ import java.util.*;
 
 public class Invoker extends java.applet.Applet {
 
-	/**
-	 * Constructs and shows the Solitaire frame in the specified language.
-	 */
-	public void init() {
-		Solitaire sol = new Solitaire( true );
+    /**
+     * Constructs and shows the Solitaire frame in the specified language.
+     */
+    public void init() {
+        Solitaire sol = new Solitaire( true );
         sol.setLocale( Locale.ENGLISH );
         sol.setVisible( true );
-	}
+    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002  FrÃ©dÃ©ric Bergeron (fbergeron@users.sourceforge.net)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,7 +38,7 @@ class SolitaireStack extends Stack {
             return( c.getValue() == Value.V_KING );
         else
             return( c.getColor() != ((ClassicCard)top()).getColor() &&
-            	c.getValue().getValue() == ((ClassicCard)top()).getValue().getValue() - 1 );
+                c.getValue().getValue() == ((ClassicCard)top()).getValue().getValue() - 1 );
     }
 
     /**

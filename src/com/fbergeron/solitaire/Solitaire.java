@@ -172,6 +172,8 @@ public class Solitaire extends Frame
         
         menuOptions.setLabel( resBundle.getString( "Options" ) );
         menuItemNewGame.setLabel( resBundle.getString( "NewGame" ) );
+        menuItemUndo.setLabel( resBundle.getString( "Undo" ) );
+        menuItemRestart.setLabel( resBundle.getString( "Restart" ) );
         menuHelp.setLabel( resBundle.getString( "Help" ) );
         menuItemRules.setLabel( resBundle.getString( "Rules" ) );
         menuItemAbout.setLabel( resBundle.getString( "About" ) );

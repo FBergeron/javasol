@@ -94,7 +94,7 @@ public class FrameAbout extends Frame
         _labelVersion.setText( (String)_resBundle.getString( "Version" ) + " " + 
             (String)_resBundle.getString( "VersionNumber" ) );
         _labelAuthor.setText( (String)_resBundle.getString( "By" ) +" : " + (String)_resBundle.getString( "Author" ) );
-        _labelDate.setText( "© 2002-2006" );
+        _labelDate.setText( (String)_resBundle.getString( "Copyright" ) );
         _labelEmail.setText( _resBundle.getString( "Email" ) );
         _labelWebSite.setText( _resBundle.getString( "WebSite" ) );
 

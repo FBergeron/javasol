@@ -74,7 +74,7 @@ public class Stack {
      * @param c Card to be pushed.
      */
     public void push( Card c ) {
-    	cards.addElement( c );
+        cards.addElement( c );
         c.setLocation( nextCardLocation );
         switch( spreadDirection ) {
             case SPREAD_NORTH : nextCardLocation.y -= spreadingDelta; break;
@@ -323,15 +323,19 @@ public class Stack {
         nextCardLocation = new Point( x, y );
     }
 
+    private void setNextCardLocation(Point nextCardLocation) {
+        this.nextCardLocation = nextCardLocation;
+    }
+
     private Point getNextCardLocation() {
         return nextCardLocation;
     }
 
-    private   	Vector  	cards;
-    private   	Point   	location;
-    private   	Point   	nextCardLocation;
-    private   	int     	spreadDirection;
-    private   	int     	spreadingDelta;
+    private     Vector      cards;
+    private     Point       location;
+    private     Point       nextCardLocation;
+    private     int         spreadDirection;
+    private     int         spreadingDelta;
 }
 
 

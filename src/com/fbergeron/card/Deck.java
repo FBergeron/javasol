@@ -34,12 +34,18 @@ public abstract class Deck extends Stack {
         //We transfer the deck in a vector temporarily
         Vector v = new Vector();
         while( !isEmpty() )
-           v.addElement( pop() );
+            v.addElement( pop() );
+
+        Random aRandom = new Random();
+        
+        // set the seed if you want to replay the same game 
+        // BTW game 18 is winnable aRandom.setSeed(18);
 
         //We push randomly selected cards on the empty deck
         while( !v.isEmpty() ) {
-           Card c = (Card) v.elementAt( (int)( Math.random() * v.size() ) );
-           push( c );
+            int randomCard=aRandom.nextInt((int)v.size());
+            Card c = (Card) v.elementAt( randomCard );
+            push( c );
            v.removeElement( c );
         }
     }

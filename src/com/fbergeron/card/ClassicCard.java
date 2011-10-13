@@ -44,6 +44,24 @@ public class ClassicCard extends Card {
      * @param value The value of the card.
      * @param suit  The suit of the card.
      */
+    public ClassicCard (ClassicCard card){
+    	super();
+    	this._img=card._img;
+    	this._imgName=card._imgName;
+    	this._imgObserver=card._imgObserver;
+    	this._suit=card._suit;
+    	this._value=card._value;
+    	this.setLocation(card.getLocation());
+    	this.setSize(card.getSize());
+    	if (card.isFaceDown()){
+    		this.turnFaceDown();
+    	}else
+    	{
+    		this.turnFaceUp();
+    	}
+
+    	
+    }
     public ClassicCard( Value value, Suit suit ) {
         super();
         _suit = suit;

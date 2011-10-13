@@ -23,6 +23,7 @@ import java.applet.*;
 import java.io.*;
 import java.net.*;
 import java.text.*;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -95,7 +96,13 @@ public class Solitaire extends Frame
         menuItemNewGame.addActionListener( new NewGameListener() );
         menuOptions.add( menuItemNewGame );
 
+        menuItemRestart = new MenuItem( "Restart");
+        menuItemRestart.addActionListener( new RestartListener() );
+        menuOptions.add( menuItemRestart );
 
+        menuItemUndo = new MenuItem( "Undo");
+        menuItemUndo.addActionListener( new UndoListener() );
+        menuOptions.add( menuItemUndo );
 
         //Menu Help
         menuHelp = new Menu( "Help" );
@@ -252,6 +259,8 @@ public class Solitaire extends Frame
             c.turnFaceUp();
             revealedCards.push( c );
         }
+        // Save the state of the game after the move
+        gameStates.add(new GameState(deck,revealedCards,solStack,seqStack,null,null,null));
 
         if( table != null )
             table.repaint();
@@ -273,6 +282,9 @@ public class Solitaire extends Frame
                 ClassicCard topCard = ((ClassicCard)src.top());
                 topCard.turnFaceUp();
             }
+            // Save the state of the game after the move
+            gameStates.add(new GameState(deck,revealedCards,solStack,seqStack,null,null,null));
+
             if( isGameWon() )
                 congratulate();
         }
@@ -295,6 +307,10 @@ public class Solitaire extends Frame
             for( int j = i+1; j < SOL_STACK_CNT; j++ )
                 solStack[ j ].push( deck.pop() );
         }
+        
+        // Save the initial game state
+        gameStates.add(new GameState(deck,revealedCards,solStack,seqStack,null,null,null));
+
     }
 
     /**
@@ -329,6 +345,22 @@ public class Solitaire extends Frame
     class NewGameListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             newGame();
+        }
+    }
+    class RestartListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            gameStates.get(0).restoreGameState(deck, revealedCards, solStack, seqStack);
+            table.repaint();
+        }
+    }
+    class UndoListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            if (gameStates.size()-2 >=0){
+                gameStates.get(gameStates.size()-2).restoreGameState(deck, revealedCards, solStack, seqStack);
+                gameStates.remove(gameStates.size()-1);
+            }
+
+            table.repaint();
         }
     }
 
@@ -505,6 +537,10 @@ public class Solitaire extends Frame
     protected   SolitaireStack[]    solStack;
     protected   SequentialStack[]   seqStack;
     protected   Table               table;
+    // Holds the state of the solitaire game after each move
+    protected ArrayList<GameState>  gameStates = new ArrayList<GameState>();
+    protected ArrayList<GameState>  legalGs = new ArrayList<GameState>();
+
 
     static protected ResourceBundle resBundle;
 
@@ -512,6 +548,8 @@ public class Solitaire extends Frame
     private Menu                menuOptions;
     private Menu                menuHelp;
     private MenuItem            menuItemNewGame;
+    private MenuItem            menuItemRestart;
+    private MenuItem            menuItemUndo;
     private MenuItem            menuItemRules;
     private MenuItem            menuItemAbout;
     private MenuItem            menuItemLicense;

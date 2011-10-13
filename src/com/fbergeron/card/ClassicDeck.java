@@ -30,6 +30,9 @@ public class ClassicDeck extends Deck {
     /**
      * Creates a stack of 52 cards.  No jokers yet!
      */
+	public ClassicDeck(){
+		
+	}
     public ClassicDeck( ImageObserver imgObserver ) {
     	_imgObserver = imgObserver;
         buildCards();

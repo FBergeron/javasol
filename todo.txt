@@ -3,4 +3,6 @@ Centralize the credit info (from the Game Info menuitem) into the FrameAbout.
 Implement keyboard accelerators for other functions.
 Probably remove bin/backupRepository.sh.
 Probably remove bin/release.sh and bin/upload.sh.
+Fixed images from www that have been corrupted (when moving from CVS to SVN probably).
+Update www.
 Release version 1.3.

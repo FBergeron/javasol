@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,25 +26,7 @@ import java.util.*;
 import com.sixlegs.image.png.PngImage;
 
 public class Util {
-    /**
-     * Tri par insertion
-     *
-     * @param array Tableau des entiers a trier
-     */
-    /*public static Integer[] sort( Integer[] array )
-    {
-        Vector temp = new Vector( array.length );
-        for( int i = 0; i < array.length; i++ ) {
-            int j = 0;
-            while( j < temp.size() && ((Integer)temp.elementAt( j )).intValue() < array[ i ].intValue() )
-                j++;
-            temp.insertElementAt( array[ i ], j );
-        }
-        Integer[] sortedArray = new Integer[ temp.size() ];
-        temp.copyInto( sortedArray );
-        return( sortedArray );
-    }
-*/
+
     /** 
      * Gets an image resource. 
      * @param strResourceFilename Name of the image file.

@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +32,7 @@ public abstract class Card {
     public static int DEFAULT_WIDTH = 86;//80;//82;
 
     public abstract String toString();
-    public abstract void paint( Graphics g );
+    public abstract void paint( Graphics g, boolean hint );
 
     /**
      * @return <CODE>true</CODE>, if the card is turned face down, hidden.

@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 1999  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 1999-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

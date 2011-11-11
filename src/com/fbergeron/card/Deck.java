@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@ public abstract class Deck extends Stack {
     /**
      * Shuffles the deck.
      */
-    public void shuffle() {
+    public void shuffle( int seed ) {
         //We transfer the deck in a vector temporarily
         Vector v = new Vector();
         while( !isEmpty() )
@@ -38,8 +39,13 @@ public abstract class Deck extends Stack {
 
         Random aRandom = new Random();
         
-        // set the seed if you want to replay the same game 
-        // BTW game 18 is winnable aRandom.setSeed(18);
+        // set the seed to the chosen game type
+        if( seed != -1 )
+            aRandom.setSeed(seed);
+        else {
+            seed=aRandom.nextInt( 1000000 );
+            aRandom.setSeed( seed );
+        }
 
         //We push randomly selected cards on the empty deck
         while( !v.isEmpty() ) {

@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +51,20 @@ public class Stack {
     public boolean isEmpty() {
         return cards.isEmpty();
     }
-
+    
+    public Vector getCards() {
+        return cards;
+    }
+    
+    public int firstFaceUp(){
+        for( int i = 0; i < cards.size(); i++ ) {
+            ClassicCard c = ((ClassicCard)cards.get( i ));
+            if( !c.isFaceDown() )
+                return i;
+        }
+        return -1;
+    }
+    
     /**
      * @return the card on top of the stack without poping it out.
      */
@@ -245,7 +259,7 @@ public class Stack {
         spreadingDelta = delta;
     }
 
-    public void paint( Graphics g ) {
+    public void paint( Graphics g, boolean hint ) {
         if( isEmpty() ) {
             Point loc = getLocation();
             g.setColor( Color.darkGray );
@@ -256,7 +270,7 @@ public class Stack {
         else
             for( Enumeration e = cards.elements(); e.hasMoreElements(); ) {
                 Card c = (Card)(e.nextElement());
-                c.paint( g );
+                c.paint( g, hint );
             }
     }
 

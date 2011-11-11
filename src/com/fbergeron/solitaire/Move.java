@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
- *                          and other contributors
+ * Copyright (C) 2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                     and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,18 +18,10 @@
  */
 package com.fbergeron.solitaire;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import com.fbergeron.card.Stack;
 
-public class Invoker extends java.applet.Applet {
-
-    /**
-     * Constructs and shows the Solitaire frame in the specified language.
-     */
-    public void init() {
-        Solitaire sol = new Solitaire( true );
-        sol.setLocale( Locale.ENGLISH );
-        sol.setVisible( true );
-    }
+public class Move {
+     protected Stack curr;
+     protected Stack src;
+     protected Stack dst;
 }

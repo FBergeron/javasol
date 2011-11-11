@@ -1,5 +1,6 @@
 /*
- * Copyright (C) 2002  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ * Copyright (C) 2002-2011  Frédéric Bergeron (fbergeron@users.sourceforge.net)
+ *                          and other contributors
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,6 +52,7 @@ public class ClassicCard extends Card {
         this._imgObserver=card._imgObserver;
         this._suit=card._suit;
         this._value=card._value;
+//      this._isLegal=true;
         this.setLocation(card.getLocation());
         this.setSize(card.getSize());
         if (card.isFaceDown()){
@@ -69,6 +71,7 @@ public class ClassicCard extends Card {
         StringBuffer imgName = new StringBuffer( _suit.toString() );
         imgName.append( "/" ).append( _value.toString() );
         _imgName = imgName.toString();
+        this._isLegal = false;
         turnFaceDown();
     }
 
@@ -117,7 +120,7 @@ public class ClassicCard extends Card {
         return strBufTemp.toString();
     }
 
-    public void paint( Graphics g ) {
+    public void paint( Graphics g, boolean hint ) {
         Point location = getLocation();
 
         //Background
@@ -137,6 +140,13 @@ public class ClassicCard extends Card {
             Image img = (Image)images.get( _imgName );
             if( img != null && _imgObserver != null )
                 g.drawImage( img, location.x + 3, location.y + 3, _imgObserver );
+            if( hint ) {
+                if( this._isLegal ) {
+                    img = (Image)images.get( "Legal" );
+                    if( img != null && _imgObserver != null )
+                        g.drawImage( img, location.x + 3, location.y + 3, _imgObserver ); 
+                }
+            }
         }
 
         g.setClip(null); // OK, you can draw anywhere again
@@ -162,6 +172,10 @@ public class ClassicCard extends Card {
                 images.put( imgName, img );
             }
         }
+        String imgName = "Legal";
+        Image img = Util.getImageResourceFile( imgName + ".png", ClassicCard.class );
+        tracker.addImage( img, 0 );
+        images.put( imgName, img );
         try {
             tracker.waitForID( 0 );
         }
@@ -169,11 +183,20 @@ public class ClassicCard extends Card {
             // Ignore the interruption.
         }
     }
+    
+    public boolean is_isLegal() {
+        return _isLegal;
+    }
+    public void set_isLegal(boolean _isLegal) {
+        this._isLegal = _isLegal;
+    }
 
     private Suit            _suit;
     private Value           _value;
     private String          _imgName;
+    private boolean         _isLegal;
 
     private ImageObserver   _imgObserver;
     private Image           _img;
+
 }

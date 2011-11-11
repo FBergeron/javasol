@@ -33,14 +33,14 @@ public class Suit {
 
     public static final Suit[] suits = { HEART, SPADE, DIAMOND, CLUB };
 
-    private Suit( String toString ) {
-        _toString = toString;
+    private Suit( String id ) {
+        this.id = id;
     }
 
     public String toString() {
-        return( _toString );
+        return( id );
     }
 
-    private String _toString;
+    private String id;
 
 }

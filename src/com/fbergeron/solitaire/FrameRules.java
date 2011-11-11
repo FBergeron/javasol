@@ -51,11 +51,11 @@ public class FrameRules extends Frame
     public void setLocale( Locale locale ) {
         super.setLocale( locale );
 
-        _resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
+        resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
         
-        textAreaHelp.setText( _resBundle.getString( "Rules01" ) );
-        setTitle( _resBundle.getString( "Rules" ) );
+        textAreaHelp.setText( resBundle.getString( "Rules01" ) );
+        setTitle( resBundle.getString( "Rules" ) );
     }
     
-    private ResourceBundle _resBundle;
+    private ResourceBundle resBundle;
 }

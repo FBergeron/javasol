@@ -38,22 +38,22 @@ public class FrameAbout extends Frame
         
         Image imgLogo = Util.getImageResourceFile( "logo.jpg", getClass() );
         Util.loadImages( new Image[] { imgLogo }, this );
-        _panelPicture = new ImagePanel( imgLogo );
+        panelPicture = new ImagePanel( imgLogo );
 
-        _panelAuthor = new Panel( new GridLayout( 0, 1 ) );
-        _labelVersion = new Label( "", Label.RIGHT );
-        _labelAuthor = new Label( "", Label.RIGHT );
-        _labelEmail = new Label( "", Label.RIGHT );
-        _labelWebSite = new Label( "", Label.RIGHT );
-        _labelDate = new Label( "", Label.RIGHT );
-        _panelAuthor.add( _labelVersion );
-        _panelAuthor.add( _labelAuthor );
-        _panelAuthor.add( _labelEmail );
-        _panelAuthor.add( _labelWebSite );
-        _panelAuthor.add( _labelDate );
+        panelAuthor = new Panel( new GridLayout( 0, 1 ) );
+        labelVersion = new Label( "", Label.RIGHT );
+        labelAuthor = new Label( "", Label.RIGHT );
+        labelEmail = new Label( "", Label.RIGHT );
+        labelWebSite = new Label( "", Label.RIGHT );
+        labelDate = new Label( "", Label.RIGHT );
+        panelAuthor.add( labelVersion );
+        panelAuthor.add( labelAuthor );
+        panelAuthor.add( labelEmail );
+        panelAuthor.add( labelWebSite );
+        panelAuthor.add( labelDate );
         
-        add( _panelPicture, BorderLayout.CENTER );
-        add( _panelAuthor, BorderLayout.SOUTH );
+        add( panelPicture, BorderLayout.CENTER );
+        add( panelAuthor, BorderLayout.SOUTH );
 
         addWindowListener( new WindowManager( this, WindowManager.HIDE_ON_CLOSE ) );
         pack();
@@ -90,26 +90,26 @@ public class FrameAbout extends Frame
     public void setLocale( Locale locale ) {
         super.setLocale( locale );
 
-        _resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
+        resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
         
-        _labelVersion.setText( (String)_resBundle.getString( "Version" ) + " " + 
-            (String)_resBundle.getString( "VersionNumber" ) );
-        _labelAuthor.setText( (String)_resBundle.getString( "By" ) +" : " + (String)_resBundle.getString( "Author" ) );
-        _labelDate.setText( (String)_resBundle.getString( "Copyright" ) );
-        _labelEmail.setText( _resBundle.getString( "Email" ) );
-        _labelWebSite.setText( _resBundle.getString( "WebSite" ) );
+        labelVersion.setText( (String)resBundle.getString( "Version" ) + " " + 
+            (String)resBundle.getString( "VersionNumber" ) );
+        labelAuthor.setText( (String)resBundle.getString( "By" ) +" : " + (String)resBundle.getString( "Author" ) );
+        labelDate.setText( (String)resBundle.getString( "Copyright" ) );
+        labelEmail.setText( resBundle.getString( "Email" ) );
+        labelWebSite.setText( resBundle.getString( "WebSite" ) );
 
-        setTitle( _resBundle.getString( "About" ) + " " + _resBundle.getString( "Solitaire" ) );
+        setTitle( resBundle.getString( "About" ) + " " + resBundle.getString( "Solitaire" ) );
     }
 
-    private Label       _labelVersion;
-    private ImagePanel  _panelPicture;
-    private Panel       _panelAuthor;
-    private Label       _labelDate;
-    private Label       _labelAuthor;
-    private Label       _labelEmail;
-    private Label       _labelWebSite;
+    private Label       labelVersion;
+    private ImagePanel  panelPicture;
+    private Panel       panelAuthor;
+    private Label       labelDate;
+    private Label       labelAuthor;
+    private Label       labelEmail;
+    private Label       labelWebSite;
     
-    private ResourceBundle _resBundle;
+    private ResourceBundle resBundle;
 
 }

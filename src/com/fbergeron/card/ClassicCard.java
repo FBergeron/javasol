@@ -45,38 +45,43 @@ public class ClassicCard extends Card {
      * @param value The value of the card.
      * @param suit  The suit of the card.
      */
-    public ClassicCard (ClassicCard card){
+    public ClassicCard( ClassicCard card ) {
         super();
-        this._img=card._img;
-        this._imgName=card._imgName;
-        this._imgObserver=card._imgObserver;
-        this._suit=card._suit;
-        this._value=card._value;
-//      this._isLegal=true;
-        this.setLocation(card.getLocation());
-        this.setSize(card.getSize());
-        if (card.isFaceDown()){
+        this.img = card.img;
+        this.imgName = card.imgName;
+        this.imgObserver = card.imgObserver;
+        this.suit = card.suit;
+        this.value = card.value;
+//      this.legal=true;
+        this.setLocation( card.getLocation() );
+        this.setSize( card.getSize() );
+        if( card.isFaceDown() )
             this.turnFaceDown();
-        }else
-        {
+        else
             this.turnFaceUp();
-        }
-
-        
     }
+
     public ClassicCard( Value value, Suit suit ) {
         super();
-        _suit = suit;
-        _value = value;
-        StringBuffer imgName = new StringBuffer( _suit.toString() );
-        imgName.append( "/" ).append( _value.toString() );
-        _imgName = imgName.toString();
-        this._isLegal = false;
+        this.suit = suit;
+        this.value = value;
+        StringBuffer tmpImgName = new StringBuffer( suit.toString() );
+        tmpImgName.append( "/" ).append( value.toString() );
+        this.imgName = tmpImgName.toString();
+        this.legal = false;
         turnFaceDown();
     }
 
+    public boolean isLegal() {
+        return legal;
+    }
+
+    public void setLegal( boolean legal ) {
+        this.legal = legal;
+    }
+
     public void setImageObserver( ImageObserver imgObserver ) {
-        _imgObserver = imgObserver;
+        this.imgObserver = imgObserver;
     }
 
     /**
@@ -84,14 +89,14 @@ public class ClassicCard extends Card {
      * May be either <CODE>Color.red</CODE> or <CODE>Color.black</CODE>.
      */
     public Color getColor() {
-        return ( _suit == Suit.SPADE || _suit == Suit.CLUB ) ? Color.black : Color.red;
+        return ( suit == Suit.SPADE || suit == Suit.CLUB ) ? Color.black : Color.red;
     }
 
     /**
      * @return Value of the card.  May be from 1 to 13.
      */
     public Value getValue() {
-        return _value;
+        return value;
     }
 
     /**
@@ -99,22 +104,22 @@ public class ClassicCard extends Card {
      * <CODE>HEART</CODE>, <CODE>SPADE</CODE>, <CODE>DIAMOND</CODE> or <CODE>CLUB</CODE>,
      */
     public Suit getSuit() {
-        return _suit;
+        return suit;
     }
 
     public boolean equals(Object obj) {
         return
             isFaceDown() == ( (ClassicCard)obj ).isFaceDown() &&
-            _suit == ( (ClassicCard)obj )._suit &&
-            _value == ( (ClassicCard)obj )._value;
+            suit == ( (ClassicCard)obj ).suit &&
+            value == ( (ClassicCard)obj ).value;
     }
 
     public String toString() {
         StringBuffer strBufTemp = new StringBuffer();
         if( isFaceDown() )
             strBufTemp.append( STRING_HIDDEN );
-        strBufTemp.append( _value.toString() );
-        strBufTemp.append( _suit.toString() );
+        strBufTemp.append( value.toString() );
+        strBufTemp.append( suit.toString() );
         if( isFaceDown() )
             strBufTemp.append( STRING_HIDDEN );
         return strBufTemp.toString();
@@ -137,14 +142,14 @@ public class ClassicCard extends Card {
             g.setColor( Color.white );
             g.fillRect( location.x, location.y, getSize().width - 1, getSize().height - 1 );
 
-            Image img = (Image)images.get( _imgName );
-            if( img != null && _imgObserver != null )
-                g.drawImage( img, location.x + 3, location.y + 3, _imgObserver );
+            Image img = (Image)images.get( imgName );
+            if( img != null && imgObserver != null )
+                g.drawImage( img, location.x + 3, location.y + 3, imgObserver );
             if( hint ) {
-                if( this._isLegal ) {
+                if( this.legal ) {
                     img = (Image)images.get( "Legal" );
-                    if( img != null && _imgObserver != null )
-                        g.drawImage( img, location.x + 3, location.y + 3, _imgObserver ); 
+                    if( img != null && imgObserver != null )
+                        g.drawImage( img, location.x + 3, location.y + 3, imgObserver ); 
                 }
             }
         }
@@ -184,19 +189,12 @@ public class ClassicCard extends Card {
         }
     }
     
-    public boolean is_isLegal() {
-        return _isLegal;
-    }
-    public void set_isLegal(boolean _isLegal) {
-        this._isLegal = _isLegal;
-    }
+    private Suit            suit;
+    private Value           value;
+    private String          imgName;
+    private boolean         legal;
 
-    private Suit            _suit;
-    private Value           _value;
-    private String          _imgName;
-    private boolean         _isLegal;
-
-    private ImageObserver   _imgObserver;
-    private Image           _img;
+    private ImageObserver   imgObserver;
+    private Image           img;
 
 }

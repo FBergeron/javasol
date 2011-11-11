@@ -58,11 +58,11 @@ public class Value {
     };
 
     private Value( int value ) {
-        _value = value;
+        this.value = value;
     }
 
     public int getValue() {
-        return( _value );
+        return( value );
     }
 
     public String toString() {
@@ -75,9 +75,9 @@ public class Value {
         else if( equals( V_ACE ) )
             return( STRING_ACE );
         else
-            return( new Integer( _value ).toString() );
+            return( new Integer( value ).toString() );
     }
 
-    int _value;
+    int value;
 
 }

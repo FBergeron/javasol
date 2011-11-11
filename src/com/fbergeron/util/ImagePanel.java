@@ -46,18 +46,18 @@ public class ImagePanel extends Panel {
      * Otherwise, returns default behavior.
      */
     public Dimension getPreferredSize() {
-        if( _img == null )
+        if( img == null )
             return( super.getPreferredSize() );
-        int width = _img.getWidth( this );
-        int height = _img.getHeight( this );
+        int width = img.getWidth( this );
+        int height = img.getHeight( this );
         return( new Dimension( width, height ) );
     }
 
     public void setBounds( int x, int y, int width, int height ) {
-        if( _offscreen != null ) {
-            _offscreenGr.dispose();
-            _offscreen = null;
-            _offscreenGr = null;
+        if( offscreen != null ) {
+            offscreenGr.dispose();
+            offscreen = null;
+            offscreenGr = null;
         }
         super.setBounds( x, y, width, height );
     }
@@ -67,8 +67,8 @@ public class ImagePanel extends Panel {
      * @param image Image to be drawn on the panel.
      */
     public void setImage( Image image ) {
-        _img = image;
-        _isImgLoaded = false;
+        img = image;
+        isImgLoaded = false;
         repaint();
     }
 
@@ -78,21 +78,21 @@ public class ImagePanel extends Panel {
      * @param g Graphics on which we draw the panel.
      */
     public void update( Graphics g ) {
-        if( !_isDoubleBuffered ) {
+        if( !isDoubleBuffered ) {
             paint( g );
             return;
         }
 
         //Create offscreen
         Dimension dim = this.getSize();
-        if( _offscreen == null ) {
-            _offscreen = this.createImage( dim.width, dim.height );
-            _offscreenGr = _offscreen.getGraphics();
+        if( offscreen == null ) {
+            offscreen = this.createImage( dim.width, dim.height );
+            offscreenGr = offscreen.getGraphics();
         }
 
-        paint( _offscreenGr );
+        paint( offscreenGr );
 
-        g.drawImage( _offscreen, 0, 0, this );
+        g.drawImage( offscreen, 0, 0, this );
     }
 
     /**
@@ -105,12 +105,12 @@ public class ImagePanel extends Panel {
     public void paint( Graphics g ) {
         super.paint( g );
 
-        // If no _img is specified, nothing more to do.
-        if( _img == null )
+        // If no img is specified, nothing more to do.
+        if( img == null )
             return;
 
         // Print a message while the image is loading.
-        if( !prepareImage( _img, this ) ) {
+        if( !prepareImage( img, this ) ) {
             String str = "Loading image...";
             FontMetrics fm = getFontMetrics( getFont() );
             Dimension dim = getSize();
@@ -121,10 +121,10 @@ public class ImagePanel extends Panel {
         }
 
         // Draw the image when loaded.
-        _isImgLoaded = true;
+        isImgLoaded = true;
         Dimension dim = getSize();
-        int imgWidth = _img.getWidth( this );
-        int imgHeight = _img.getHeight( this );
+        int imgWidth = img.getWidth( this );
+        int imgHeight = img.getHeight( this );
         int x = ( dim.width - imgWidth ) / 2;
         int y = ( dim.height - imgHeight ) / 2;
         // Rounding correction
@@ -132,7 +132,7 @@ public class ImagePanel extends Panel {
             x = 0;
         if( y < 0 )
             y = 0;
-        g.drawImage( _img, x, y, this );
+        g.drawImage( img, x, y, this );
     }
 
     /**
@@ -140,14 +140,14 @@ public class ImagePanel extends Panel {
      * <code>false</code>, otherwise.
      */
     public boolean isImageLoaded() {
-        return( _isImgLoaded );
+        return( isImgLoaded );
     }
 
     /**
      * @return <code>true</code> if the canvas uses an offscreen to draw itself.
      */
     public boolean isDoubleBuffered() {
-        return( _isDoubleBuffered );
+        return( isDoubleBuffered );
     }
 
     /**
@@ -157,7 +157,7 @@ public class ImagePanel extends Panel {
      * @param isDoubleBuffered <code>true</code> to use an offscreen.
      */
     public void setDoubleBuffered( boolean isDoubleBuffered ) {
-        _isDoubleBuffered = isDoubleBuffered;
+        isDoubleBuffered = isDoubleBuffered;
         repaint();
     }
 
@@ -165,15 +165,15 @@ public class ImagePanel extends Panel {
      * Clean up the offscreen when the canvas is destroyed.
      */
     public void destroy() {
-        if( _offscreenGr != null )
-            _offscreenGr.dispose();
+        if( offscreenGr != null )
+            offscreenGr.dispose();
     }
 
-    private boolean     _isDoubleBuffered;
-    private boolean     _isImgLoaded;
-    private Image       _img;
-    private Image       _offscreen;
-    private Graphics    _offscreenGr;
+    private boolean     isDoubleBuffered;
+    private boolean     isImgLoaded;
+    private Image       img;
+    private Image       offscreen;
+    private Graphics    offscreenGr;
 
 }
 

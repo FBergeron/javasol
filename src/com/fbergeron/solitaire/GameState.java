@@ -72,22 +72,22 @@ public class GameState {
         for (int i = 0; i < Solitaire.SOL_STACK_CNT; i++) {
             for (int k = 0; k < this.solStack[i].cardCount(); k++) {
                 ClassicCard cc=(ClassicCard) (this.solStack[i].elementAt(k));
-                cc.set_isLegal(false);
+                cc.setLegal(false);
             }
         }
         for (int i = 0; i < Solitaire.SEQ_STACK_CNT; i++) {
             for (int k = 0; k < this.seqStack[i].cardCount(); k++) {
                 ClassicCard cc=(ClassicCard) (this.seqStack[i].elementAt(k));
-                cc.set_isLegal(false);
+                cc.setLegal(false);
             }
         }
         for (int i = 0; i < this.revealedCards.cardCount(); i++) {
             ClassicCard cc=(ClassicCard) (this.revealedCards.elementAt(i));
-            cc.set_isLegal(false);
+            cc.setLegal(false);
         }
         for (int i = 0; i < this.deck.cardCount(); i++) {
             ClassicCard cc=(ClassicCard) (this.deck.elementAt(i));
-            cc.set_isLegal(false);
+            cc.setLegal(false);
         }
 
         // Check Solitaire Stacks Legal Moves
@@ -163,7 +163,7 @@ public class GameState {
                                 System.out.println("Legal Move "+cOut.getValue()+cOut.getSuit()+" To Sol Stack "+(j2+1));
 
                             }
-                            cOut.set_isLegal(true);
+                            cOut.setLegal(true);
                         }
                     }
                 }
@@ -201,7 +201,7 @@ public class GameState {
                 if (verbose){
                     System.out.println("Legal Move "+cOut.getValue()+cOut.getSuit()+" To Seq Stack "+(j2+1));
                 }
-                cOut.set_isLegal(true);
+                cOut.setLegal(true);
                 for( ; !curr.isEmpty(); )
                     src.push( curr.pop() );
                 // if can go on one sequential stack no need to check the others
@@ -236,7 +236,7 @@ public class GameState {
                 if (verbose){
                     System.out.println("Legal Move "+cOut.getValue()+cOut.getSuit()+" To Sol Stack "+(j2+1));
                 }
-                cOut.set_isLegal(true);
+                cOut.setLegal(true);
             }
         }
         // put cards back on src stack
@@ -275,7 +275,7 @@ public class GameState {
                     System.out.println("Legal Move "+cOut.getValue()+cOut.getSuit()+" To Seq Stack "+(j2+1));
 
                 }
-                cOut.set_isLegal(true);
+                cOut.setLegal(true);
                 for( ; !curr.isEmpty(); )
                     src.push( curr.pop() );
                 // if can go on one sequential stack no need to check the others

@@ -35,7 +35,7 @@ public class ClassicDeck extends Deck {
         
     }
     public ClassicDeck( ImageObserver imgObserver ) {
-        _imgObserver = imgObserver;
+        this.imgObserver = imgObserver;
         buildCards();
     }
 
@@ -43,13 +43,13 @@ public class ClassicDeck extends Deck {
         for( int suit = 0; suit < Suit.suits.length; suit++ ) {
             for ( int value = 0; value < Value.values.length; value++ ) {
                 ClassicCard c = new ClassicCard( Value.values[ value ], Suit.suits[ suit ] );
-                if( _imgObserver != null )
-                    c.setImageObserver( _imgObserver );
+                if( imgObserver != null )
+                    c.setImageObserver( imgObserver );
                 push( c );
 
             }
         }
     }
 
-    protected ImageObserver _imgObserver;
+    protected ImageObserver imgObserver;
 }

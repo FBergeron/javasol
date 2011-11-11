@@ -1,4 +1,3 @@
-Remove the _ prefix for private variables everywhere.  Rename ClassicCard.is_isLegal() and ClassicCard.set_isLegal() accordingly.
 Instead of prompting user to select game level, I think a radiobutton menuitem would be better.
 Centralize the credit info (from the Game Info menuitem) into the FrameAbout.  
 Implement keyboard accelerators for other functions.

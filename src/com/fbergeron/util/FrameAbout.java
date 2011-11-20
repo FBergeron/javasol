@@ -40,6 +40,12 @@ public class FrameAbout extends Frame
         Util.loadImages( new Image[] { imgLogo }, this );
         panelPicture = new ImagePanel( imgLogo );
 
+        panelBottom = new Panel( new BorderLayout() );
+
+        panelButtons = new Panel( new BorderLayout() );
+        buttonCredits = new Button(); 
+        panelButtons.add( buttonCredits, BorderLayout.SOUTH );
+
         panelAuthor = new Panel( new GridLayout( 0, 1 ) );
         labelVersion = new Label( "", Label.RIGHT );
         labelAuthor = new Label( "", Label.RIGHT );
@@ -51,9 +57,12 @@ public class FrameAbout extends Frame
         panelAuthor.add( labelEmail );
         panelAuthor.add( labelWebSite );
         panelAuthor.add( labelDate );
-        
+
+        panelBottom.add( panelButtons, BorderLayout.WEST );
+        panelBottom.add( panelAuthor, BorderLayout.EAST );
+
         add( panelPicture, BorderLayout.CENTER );
-        add( panelAuthor, BorderLayout.SOUTH );
+        add( panelBottom, BorderLayout.SOUTH );
 
         addWindowListener( new WindowManager( this, WindowManager.HIDE_ON_CLOSE ) );
         pack();
@@ -91,6 +100,8 @@ public class FrameAbout extends Frame
         super.setLocale( locale );
 
         resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
+
+        buttonCredits.setLabel( (String)resBundle.getString( "Credits" ) );
         
         labelVersion.setText( (String)resBundle.getString( "Version" ) + " " + 
             (String)resBundle.getString( "VersionNumber" ) );
@@ -104,6 +115,9 @@ public class FrameAbout extends Frame
 
     private Label       labelVersion;
     private ImagePanel  panelPicture;
+    private Panel       panelBottom;
+    private Button      buttonCredits;
+    private Panel       panelButtons;
     private Panel       panelAuthor;
     private Label       labelDate;
     private Label       labelAuthor;

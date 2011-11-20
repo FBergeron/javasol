@@ -20,6 +20,7 @@
 package com.fbergeron.util;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.text.*;
 import java.util.*;
 
@@ -28,13 +29,16 @@ import java.util.*;
  */
 public class FrameAbout extends Frame
 {
+
     /**
      * Constructor for FrameAbout.
      */
     public FrameAbout()
     {
-        setLayout( new BorderLayout() );
-        setBackground( Color.white );
+        setLayout( new CardLayout() );
+
+        panelAbout = new Panel( new BorderLayout() );
+        panelAbout.setBackground( Color.white );
         
         Image imgLogo = Util.getImageResourceFile( "logo.jpg", getClass() );
         Util.loadImages( new Image[] { imgLogo }, this );
@@ -43,8 +47,15 @@ public class FrameAbout extends Frame
         panelBottom = new Panel( new BorderLayout() );
 
         panelButtons = new Panel( new BorderLayout() );
-        buttonCredits = new Button(); 
-        panelButtons.add( buttonCredits, BorderLayout.SOUTH );
+        buttonShowCredits = new Button(); 
+        buttonShowCredits.addActionListener( 
+            new ActionListener() {
+                public void actionPerformed( ActionEvent evt ) {
+                    showCredits();
+                }
+            } 
+        );
+        panelButtons.add( buttonShowCredits, BorderLayout.SOUTH );
 
         panelAuthor = new Panel( new GridLayout( 0, 1 ) );
         labelVersion = new Label( "", Label.RIGHT );
@@ -61,8 +72,32 @@ public class FrameAbout extends Frame
         panelBottom.add( panelButtons, BorderLayout.WEST );
         panelBottom.add( panelAuthor, BorderLayout.EAST );
 
-        add( panelPicture, BorderLayout.CENTER );
-        add( panelBottom, BorderLayout.SOUTH );
+        panelAbout.add( panelPicture, BorderLayout.CENTER );
+        panelAbout.add( panelBottom, BorderLayout.SOUTH );
+
+        panelCredits = new Panel( new BorderLayout( 5, 5 ) );
+        panelCredits.setBackground( Color.white ); 
+       
+        labelCredits = new Label();
+        textAreaCredits = new TextArea();
+
+        buttonHideCredits = new Button();
+        buttonHideCredits.addActionListener( 
+            new ActionListener() {
+                public void actionPerformed( ActionEvent evt ) {
+                    hideCredits();
+                }
+            }
+        );
+
+        panelCredits.add( labelCredits, BorderLayout.NORTH );
+        panelCredits.add( textAreaCredits, BorderLayout.CENTER );
+        panelCredits.add( buttonHideCredits, BorderLayout.SOUTH );
+
+        add( panelAbout, CARD_ABOUT );
+        add( panelCredits, CARD_CREDITS );
+
+        hideCredits();
 
         addWindowListener( new WindowManager( this, WindowManager.HIDE_ON_CLOSE ) );
         pack();
@@ -101,7 +136,11 @@ public class FrameAbout extends Frame
 
         resBundle = ResourceBundle.getBundle( getClass().getName() + "Ress", locale ); 
 
-        buttonCredits.setLabel( (String)resBundle.getString( "Credits" ) );
+        buttonShowCredits.setLabel( (String)resBundle.getString( "ShowCredits" ) );
+        buttonHideCredits.setLabel( (String)resBundle.getString( "HideCredits" ) );
+
+        labelCredits.setText( (String)resBundle.getString( "CreditsTitle" ) );
+        textAreaCredits.setText( (String)resBundle.getString( "Credits" ) );
         
         labelVersion.setText( (String)resBundle.getString( "Version" ) + " " + 
             (String)resBundle.getString( "VersionNumber" ) );
@@ -113,10 +152,26 @@ public class FrameAbout extends Frame
         setTitle( resBundle.getString( "About" ) + " " + resBundle.getString( "Solitaire" ) );
     }
 
+    private void showCredits() {
+        ((CardLayout)getLayout()).show( this, CARD_CREDITS );
+    }
+
+    private void hideCredits() {
+        ((CardLayout)getLayout()).show( this, CARD_ABOUT );
+    }
+
+    private CardLayout  cardLayout;
+
+    private Panel       panelAbout;
+    private Panel       panelCredits;
+
     private Label       labelVersion;
     private ImagePanel  panelPicture;
     private Panel       panelBottom;
-    private Button      buttonCredits;
+    private Button      buttonShowCredits;
+    private Label       labelCredits;
+    private TextArea    textAreaCredits;
+    private Button      buttonHideCredits;
     private Panel       panelButtons;
     private Panel       panelAuthor;
     private Label       labelDate;
@@ -125,5 +180,8 @@ public class FrameAbout extends Frame
     private Label       labelWebSite;
     
     private ResourceBundle resBundle;
+
+    private static final String CARD_ABOUT = "About";
+    private static final String CARD_CREDITS = "Credits";
 
 }

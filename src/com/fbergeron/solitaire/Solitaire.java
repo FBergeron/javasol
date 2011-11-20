@@ -609,7 +609,7 @@ public class Solitaire extends Frame
                 currStack.paint( offscreenGr,menuItemHint.getState() );
 
             //Draw game info
-            if( gameType != null && seed != -1 ) {
+            if( gameType != null && seed != -1 && resBundle != null ) {
                 String isRandomStr = null;
                 String levelStr = null;
                 String gameInfoStr = null;

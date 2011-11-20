@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.*;
 import java.text.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
@@ -230,6 +231,9 @@ public class Solitaire extends Frame
             frameAbout.setLocale( locale );
         if( frameRules != null )
             frameRules.setLocale( locale );
+
+        if( table != null )
+            table.repaint();
     }
     
     public static void main( String[] args ) {
@@ -600,6 +604,46 @@ public class Solitaire extends Frame
             if( currStack != null && !currStack.isEmpty())
                 currStack.paint( offscreenGr,menuItemHint.getState() );
 
+            //Draw game info
+            if( gameType != null && seed != -1 ) {
+                String isRandomStr = null;
+                String levelStr = null;
+                String gameInfoStr = null;
+                if( RANDOM.equals( gameType ) ) {
+                    isRandomStr = "Random ";
+                    if( Arrays.asList( easyGames ).contains( seed ) )
+                        levelStr = "Easy";
+                    else if( Arrays.asList( normalGames ).contains( seed ) )
+                        levelStr = "Normal";
+                    else if( Arrays.asList( hardGames ).contains( seed ) )
+                        levelStr = "Hard";
+                    else if( Arrays.asList( trickyGames ).contains( seed ) )
+                        levelStr = "Tricky";
+                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoRandom" ), seed );
+                }
+                else {
+                    isRandomStr = "";
+                    if( gameType.equals( WINNABLE_EASY ) )
+                        levelStr = "Easy";
+                    else if( gameType.equals( WINNABLE_NORMAL ) )
+                        levelStr = "Normal";
+                    if( gameType.equals( WINNABLE_HARD ) )
+                        levelStr = "Hard";
+                    if( gameType.equals( WINNABLE_TRICKY ) )
+                        levelStr = "Tricky";
+                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoWinnable" ), resBundle.getString( "Level" + levelStr ), seed );
+                }
+                Font gameInfoFont = new Font( "Arial", Font.PLAIN, 14 );
+                FontMetrics gameInfoFontMetrics = offscreenGr.getFontMetrics( gameInfoFont );
+                offscreenGr.setFont( gameInfoFont );
+                int x = 10;
+                int y = dim.height - gameInfoFontMetrics.getHeight();
+                offscreenGr.setColor( Color.black ); // Shadow
+                offscreenGr.drawString( gameInfoStr, x + 1, y + 1 );
+                offscreenGr.setColor( Color.white ); // Text
+                offscreenGr.drawString( gameInfoStr, x, y );
+            }
+            
             g.drawImage( offscreen, 0, 0, this );
         }
 

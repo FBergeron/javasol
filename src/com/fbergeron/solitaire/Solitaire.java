@@ -144,6 +144,7 @@ public class Solitaire extends Frame
         menuItemUndo = new MenuItem( "Undo");
         menuItemUndo.addActionListener( new UndoListener() );
         menuItemUndo.setShortcut( new MenuShortcut(KeyEvent.VK_U, false ) ); 
+        menuItemUndo.setEnabled( false );
 
         menuItemLevelRandom = new CheckboxMenuItem( "Random" );
         menuItemLevelRandom.addItemListener( new LevelListener( RANDOM ) );
@@ -277,6 +278,16 @@ public class Solitaire extends Frame
         menuItemLevelTricky.setState( WINNABLE_TRICKY.equals( gameType ) );
     }
 
+    private void pushGameState( GameState state ) {
+        gameStates.add( state );
+        menuItemUndo.setEnabled( gameStates.size() > 1 );
+    }
+
+    private void popGameState() {
+        gameStates.remove( gameStates.size() - 1 );
+        menuItemUndo.setEnabled( gameStates.size() > 1 );
+    }
+
     public static void main( String[] args ) {
         Locale loc = null;
         if( args.length == 0 )
@@ -366,11 +377,12 @@ public class Solitaire extends Frame
             revealedCards.push( c );
         }
         // Save the state of the game after the move
-        gameStates.add(new GameState( deck, revealedCards, solStack, seqStack, null, null, null ));
-        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+        pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
 
         // Flag which cards can be moved legally
+        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
         legalGs = gs.legalMoves( false );
+
         if( table != null )
             table.repaint();
     }
@@ -392,10 +404,10 @@ public class Solitaire extends Frame
                 topCard.turnFaceUp();
             }
             // Save the state of the game after the move
-            gameStates.add(new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
-            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+            pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
             
             // Flag which cards can be moved legally
+            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
             legalGs = gs.legalMoves( false );
             
             if( isGameWon() )
@@ -422,10 +434,10 @@ public class Solitaire extends Frame
         }
         
         // Save the initial game state
-        gameStates.add( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
-        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+        pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
         
         // Flag which cards can be moved legally
+        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
         legalGs = gs.legalMoves( false );
     }
 
@@ -467,10 +479,10 @@ public class Solitaire extends Frame
         public void actionPerformed(ActionEvent e) {
             gameStates.get( 0 ).restoreGameState( deck, revealedCards, solStack, seqStack, null );
             gameStates = new ArrayList<GameState>();
-            gameStates.add( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
-            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
-
+            pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
+            
             // Flag which cards can be moved legally
+            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
             legalGs = gs.legalMoves( false );
             
             table.repaint();
@@ -480,7 +492,7 @@ public class Solitaire extends Frame
         public void actionPerformed(ActionEvent e) {
             if( gameStates.size() - 2 >= 0 ) {
                 gameStates.get( gameStates.size() - 2 ).restoreGameState( deck, revealedCards, solStack, seqStack, null );
-                gameStates.remove( gameStates.size() - 1 );
+                popGameState();
             }
             GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
 

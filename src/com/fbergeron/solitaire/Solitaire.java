@@ -174,14 +174,11 @@ public class Solitaire extends Frame
         menuItemAbout.addActionListener( new AboutListener() );
         menuItemLicense = new MenuItem();
         menuItemLicense.addActionListener( new LicenseListener() );
-        menuItemGameInfo = new MenuItem( "Game Info" );
-        menuItemGameInfo.addActionListener( new GameInfoListener() );
         menuHelp.add( menuItemRules );
         menuHelp.add( new MenuItem( "-" ) );
         menuHelp.add( menuItemAbout );
         menuHelp.add( menuItemLicense );
         menuHelp.add( new MenuItem( "-" ) );
-        menuHelp.add( menuItemGameInfo );
         MenuShortcut msHint = new MenuShortcut( KeyEvent.VK_H, false ); 
         menuItemHint = new CheckboxMenuItem( "Hint" );
         menuItemHint.setShortcut( msHint );
@@ -250,7 +247,6 @@ public class Solitaire extends Frame
         menuItemEnglish.setLabel( resBundle.getString( "English" ) );
         menuItemFrench.setLabel( resBundle.getString( "French" ) );
         menuItemHint.setLabel( resBundle.getString( "Hint" ) );
-        menuItemGameInfo.setLabel( resBundle.getString( "GameInfo" ) );
         menuItemRestart.setLabel( resBundle.getString( "Restart" ) );
         menuItemUndo.setLabel( resBundle.getString( "Undo" ) );
         menuItemLevelRandom.setLabel( resBundle.getString( "LevelRandom" ) );
@@ -1182,7 +1178,6 @@ public class Solitaire extends Frame
     private MenuItem            menuItemRules;
     private MenuItem            menuItemAbout;
     private MenuItem            menuItemLicense;
-    private MenuItem            menuItemGameInfo;
     private CheckboxMenuItem    menuItemHint;
     private CheckboxMenuItem    menuItemEnglish;
     private CheckboxMenuItem    menuItemFrench;

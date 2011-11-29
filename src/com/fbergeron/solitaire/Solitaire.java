@@ -85,6 +85,19 @@ public class Solitaire extends Frame
             Locale locale;
         }
 
+        class LevelListener implements ItemListener {
+            public LevelListener( String level ) {
+                this.level = level;
+            }
+
+            public void itemStateChanged( ItemEvent e ) {
+                Solitaire.this.setGameType( level );
+                Solitaire.this.newGame();
+            }
+
+            String level;
+        }
+
         class LicenseListener implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 String title = resBundle.getString( "License" );
@@ -130,10 +143,27 @@ public class Solitaire extends Frame
         menuItemUndo.addActionListener( new UndoListener() );
         MenuShortcut ms = new MenuShortcut(KeyEvent.VK_U, false); 
 
+        menuItemLevelRandom = new CheckboxMenuItem( "Random" );
+        menuItemLevelRandom.addItemListener( new LevelListener( RANDOM ) );
+        menuItemLevelEasy = new CheckboxMenuItem( "Easy" );
+        menuItemLevelEasy.addItemListener( new LevelListener( WINNABLE_EASY ) );
+        menuItemLevelNormal = new CheckboxMenuItem( "Normal" );
+        menuItemLevelNormal.addItemListener( new LevelListener( WINNABLE_NORMAL ) );
+        menuItemLevelHard = new CheckboxMenuItem( "Hard" );
+        menuItemLevelHard.addItemListener( new LevelListener( WINNABLE_HARD ) );
+        menuItemLevelTricky = new CheckboxMenuItem( "Tricky" );
+        menuItemLevelTricky.addItemListener( new LevelListener( WINNABLE_TRICKY ) );
+
+        setGameType( RANDOM );
+
         menuItemUndo.setShortcut(ms); 
         menuOptions.add( menuItemUndo );
-        //      menuItemUndo.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.Event.CTRL_MASK)); 
-        menuOptions.add( menuItemUndo );
+        menuOptions.add( new MenuItem( "-" ) );
+        menuOptions.add( menuItemLevelRandom );
+        menuOptions.add( menuItemLevelEasy );
+        menuOptions.add( menuItemLevelNormal );
+        menuOptions.add( menuItemLevelHard );
+        menuOptions.add( menuItemLevelTricky );
 
         //Menu Help
         menuHelp = new Menu( "Help" );
@@ -181,6 +211,7 @@ public class Solitaire extends Frame
             new SolitaireWindowManager( this,
                 isApplet ? WindowManager.HIDE_ON_CLOSE : WindowManager.EXIT_ON_CLOSE ) );
 
+        setupWinnable();
         newGame();
         setVisible( true );
     }
@@ -222,6 +253,11 @@ public class Solitaire extends Frame
         menuItemGameInfo.setLabel( resBundle.getString( "GameInfo" ) );
         menuItemRestart.setLabel( resBundle.getString( "Restart" ) );
         menuItemUndo.setLabel( resBundle.getString( "Undo" ) );
+        menuItemLevelRandom.setLabel( resBundle.getString( "LevelRandom" ) );
+        menuItemLevelEasy.setLabel( resBundle.getString( "LevelEasy" ) );
+        menuItemLevelNormal.setLabel( resBundle.getString( "LevelNormal" ) );
+        menuItemLevelHard.setLabel( resBundle.getString( "LevelHard" ) );
+        menuItemLevelTricky.setLabel( resBundle.getString( "LevelTricky" ) );
         menuItemEnglish.setState( Locale.ENGLISH.equals( locale ) );
         menuItemFrench.setState( Locale.FRENCH.equals( locale ) );
 
@@ -235,7 +271,16 @@ public class Solitaire extends Frame
         if( table != null )
             table.repaint();
     }
-    
+   
+    public void setGameType( String gameType ) {
+        this.gameType = gameType;
+        menuItemLevelRandom.setState( RANDOM.equals( gameType ) );
+        menuItemLevelEasy.setState( WINNABLE_EASY.equals( gameType ) );
+        menuItemLevelNormal.setState( WINNABLE_NORMAL.equals( gameType ) );
+        menuItemLevelHard.setState( WINNABLE_HARD.equals( gameType ) );
+        menuItemLevelTricky.setState( WINNABLE_TRICKY.equals( gameType ) );
+    }
+
     public static void main( String[] args ) {
         Locale loc = null;
         if( args.length == 0 )
@@ -256,36 +301,20 @@ public class Solitaire extends Frame
      * Starts a new Solitaire game.
      */
     public void newGame() {
-        // setup all the winnable seeds classed by difficulty
-        setupWinnable();
-
-        // Ask what type of game the player wishes to play
-        Object[] possibilities = {RANDOM, WINNABLE_EASY, WINNABLE_NORMAL,WINNABLE_HARD,WINNABLE_TRICKY};
-        gameType = (String)JOptionPane.showInputDialog(
-                table,
-                "Please choose the type of game",
-                "New Game",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                possibilities,
-        "Random");
-        
         // Get a random seed according to the game type
         seed = -1;
         Random aRandom = new Random();
-        if (gameType!=null){
-            if (gameType.equals(WINNABLE_EASY)){
-                seed=easyGames[aRandom.nextInt(easyGames.length)];
-            }
-            if (gameType.equals(WINNABLE_NORMAL)){
-                seed=normalGames[aRandom.nextInt(normalGames.length)];
-            }
-            if (gameType.equals(WINNABLE_HARD)){
-                seed=hardGames[aRandom.nextInt(hardGames.length)];
-            }
-            if (gameType.equals(WINNABLE_TRICKY)){
-                seed=trickyGames[aRandom.nextInt(trickyGames.length)];
-            }
+        if (gameType.equals(WINNABLE_EASY)){
+            seed=easyGames[aRandom.nextInt(easyGames.length)];
+        }
+        if (gameType.equals(WINNABLE_NORMAL)){
+            seed=normalGames[aRandom.nextInt(normalGames.length)];
+        }
+        if (gameType.equals(WINNABLE_HARD)){
+            seed=hardGames[aRandom.nextInt(hardGames.length)];
+        }
+        if (gameType.equals(WINNABLE_TRICKY)){
+            seed=trickyGames[aRandom.nextInt(trickyGames.length)];
         }
 
         if (seed==-1){
@@ -1145,6 +1174,11 @@ public class Solitaire extends Frame
     private MenuItem            menuItemNewGame;
     private MenuItem            menuItemRestart;
     private MenuItem            menuItemUndo;
+    private CheckboxMenuItem    menuItemLevelRandom;
+    private CheckboxMenuItem    menuItemLevelEasy;
+    private CheckboxMenuItem    menuItemLevelNormal;
+    private CheckboxMenuItem    menuItemLevelHard;
+    private CheckboxMenuItem    menuItemLevelTricky;
     private MenuItem            menuItemRules;
     private MenuItem            menuItemAbout;
     private MenuItem            menuItemLicense;

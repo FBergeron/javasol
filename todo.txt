@@ -1,6 +1,6 @@
-Instead of prompting user to select game level, I think a radiobutton menuitem would be better.
 Implement keyboard accelerators for other functions.
 Probably remove bin/backupRepository.sh.
 Probably remove bin/release.sh and bin/upload.sh.
+Update help text for undo, hint, levels and levels.
 Update www.
-Release version 1.3.
+Release version 1.3: Sourceforge, Freshmeat, elsewhere?

@@ -133,15 +133,17 @@ public class Solitaire extends Frame
         menubar.add( menuOptions );
         menuItemNewGame = new MenuItem( "NewGame");
         menuItemNewGame.addActionListener( new NewGameListener() );
+        menuItemNewGame.setShortcut( new MenuShortcut( KeyEvent.VK_N, false ) );
         menuOptions.add( menuItemNewGame );
 
         menuItemRestart = new MenuItem( "Restart");
         menuItemRestart.addActionListener( new RestartListener() );
+        menuItemRestart.setShortcut( new MenuShortcut( KeyEvent.VK_S, false ) );
         menuOptions.add( menuItemRestart );
 
         menuItemUndo = new MenuItem( "Undo");
         menuItemUndo.addActionListener( new UndoListener() );
-        MenuShortcut ms = new MenuShortcut(KeyEvent.VK_U, false); 
+        menuItemUndo.setShortcut( new MenuShortcut(KeyEvent.VK_U, false ) ); 
 
         menuItemLevelRandom = new CheckboxMenuItem( "Random" );
         menuItemLevelRandom.addItemListener( new LevelListener( RANDOM ) );
@@ -156,7 +158,6 @@ public class Solitaire extends Frame
 
         setGameType( RANDOM );
 
-        menuItemUndo.setShortcut(ms); 
         menuOptions.add( menuItemUndo );
         menuOptions.add( new MenuItem( "-" ) );
         menuOptions.add( menuItemLevelRandom );
@@ -179,9 +180,8 @@ public class Solitaire extends Frame
         menuHelp.add( menuItemAbout );
         menuHelp.add( menuItemLicense );
         menuHelp.add( new MenuItem( "-" ) );
-        MenuShortcut msHint = new MenuShortcut( KeyEvent.VK_H, false ); 
         menuItemHint = new CheckboxMenuItem( "Hint" );
-        menuItemHint.setShortcut( msHint );
+        menuItemHint.setShortcut( new MenuShortcut( KeyEvent.VK_H, false ) );
         menuItemHint.addItemListener( new HintListener() );
         menuHelp.add( menuItemHint );
         menuHelp.add( new MenuItem( "-" ) );

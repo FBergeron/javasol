@@ -1,4 +1,5 @@
-Probably remove bin/backupRepository.sh.
+Probably remove bin/backupRepository.sh. 
+Should I disable Undo when it's empy.
 Probably remove bin/release.sh and bin/upload.sh.
 Update help text for undo, hint, levels and levels.
 Update www.

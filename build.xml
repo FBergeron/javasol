@@ -6,6 +6,7 @@
   <property name="javadoc" value="doc/javadoc"/>
   <property name="classes" value="classes"/>
   <property name="dist" value="dist/javasol"/>
+  <property name="www" value="www"/>
   <property name="build.compiler.emacs" value="true"/>
 
   <path id="project.class.path">
@@ -39,6 +40,14 @@
         <include name="**/*.jar"/>
       </fileset>
     </copy>  
+    <copy todir="${dist}">
+      <fileset dir="${www}">
+        <include name="**/*.html"/>
+        <include name="**/*.png"/>
+        <include name="**/*.jpg"/>
+      </fileset>
+      <filelist dir="." files="license.txt"/>
+    </copy>  
   </target>
 
   <target name="run" depends="dist">
@@ -53,11 +62,7 @@
 
   <target name="clean">
     <delete dir="${classes}"/>
-    <delete>
-      <fileset dir="${dist}/jar">
-        <include name="**/*.jar"/>
-      </fileset>
-    </delete>  
+    <delete dir="dist"/>
   </target>
 </project>
 

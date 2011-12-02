@@ -124,6 +124,7 @@ public class FrameAbout extends Frame
         {
             setLocation( (scrSize.width - size.width) / 2, (scrSize.height - size.height) / 2 );
         }
+        hideCredits();
         super.setVisible(b);
     }
 

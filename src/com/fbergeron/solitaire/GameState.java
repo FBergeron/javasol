@@ -36,8 +36,11 @@ public class GameState {
         return( gameWon );
     }
 
-    // Is the game state the same as the passed game state?
-    public boolean equal(GameState gs){
+    public boolean equals(Object obj) {
+        if( obj == null || !( obj instanceof GameState ) )
+            return( false );
+
+        GameState gs = (GameState)obj;
         if( !this.gameInfo.equals( gs.gameInfo ) )
             return( false );
         if (this.deck.getCards().size()!=gs.deck.getCards().size() ||

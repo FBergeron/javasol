@@ -1,2 +1,0 @@
-Update www.
-Release version 1.3: Sourceforge, Freshmeat, elsewhere?

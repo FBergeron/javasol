@@ -111,12 +111,6 @@ public class Solitaire extends Frame
             }
         }
         
-        class GameInfoListener implements ActionListener {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(table, "Game Type : "+gameType+"\n"+"Game Number : "+seed+"\n"+"Winnable function coded by Richard Dent");
-            }
-        }
-        
         class HintListener implements ItemListener {
             public void itemStateChanged(ItemEvent e) {
                 if( table != null )

@@ -53,13 +53,6 @@ public class Solitaire extends Frame
     /** Number of cards freed from the deck when requested. */
     public static final int FREED_CARDS_CNT = 3;
 
-    // Game Types
-    public static final String RANDOM = "Random";
-    public static final String WINNABLE_EASY = "Winnable-Easy";
-    public static final String WINNABLE_NORMAL = "Winnable-Normal";
-    public static final String WINNABLE_HARD = "Winnable-Hard";
-    public static final String WINNABLE_TRICKY = "Winnable-Tricky";
-
     public static final Point DECK_POS              = new Point( 5, 5 );
     public static final Point REVEALED_CARDS_POS    = new Point( DECK_POS.x + ClassicCard.DEFAULT_WIDTH + 5, 5 );
     public static final Point SEQ_STACK_POS         = new Point( REVEALED_CARDS_POS.x + ClassicCard.DEFAULT_WIDTH + 92, DECK_POS.y );
@@ -141,17 +134,17 @@ public class Solitaire extends Frame
         menuItemUndo.setEnabled( false );
 
         menuItemLevelRandom = new CheckboxMenuItem( "Random" );
-        menuItemLevelRandom.addItemListener( new LevelListener( RANDOM ) );
+        menuItemLevelRandom.addItemListener( new LevelListener( GameInfo.RANDOM ) );
         menuItemLevelEasy = new CheckboxMenuItem( "Easy" );
-        menuItemLevelEasy.addItemListener( new LevelListener( WINNABLE_EASY ) );
+        menuItemLevelEasy.addItemListener( new LevelListener( GameInfo.WINNABLE_EASY ) );
         menuItemLevelNormal = new CheckboxMenuItem( "Normal" );
-        menuItemLevelNormal.addItemListener( new LevelListener( WINNABLE_NORMAL ) );
+        menuItemLevelNormal.addItemListener( new LevelListener( GameInfo.WINNABLE_NORMAL ) );
         menuItemLevelHard = new CheckboxMenuItem( "Hard" );
-        menuItemLevelHard.addItemListener( new LevelListener( WINNABLE_HARD ) );
+        menuItemLevelHard.addItemListener( new LevelListener( GameInfo.WINNABLE_HARD ) );
         menuItemLevelTricky = new CheckboxMenuItem( "Tricky" );
-        menuItemLevelTricky.addItemListener( new LevelListener( WINNABLE_TRICKY ) );
+        menuItemLevelTricky.addItemListener( new LevelListener( GameInfo.WINNABLE_TRICKY ) );
 
-        setGameType( RANDOM );
+        setGameType( GameInfo.RANDOM );
 
         menuOptions.add( menuItemUndo );
         menuOptions.add( new MenuItem( "-" ) );
@@ -264,12 +257,12 @@ public class Solitaire extends Frame
     }
    
     public void setGameType( String gameType ) {
-        this.gameType = gameType;
-        menuItemLevelRandom.setState( RANDOM.equals( gameType ) );
-        menuItemLevelEasy.setState( WINNABLE_EASY.equals( gameType ) );
-        menuItemLevelNormal.setState( WINNABLE_NORMAL.equals( gameType ) );
-        menuItemLevelHard.setState( WINNABLE_HARD.equals( gameType ) );
-        menuItemLevelTricky.setState( WINNABLE_TRICKY.equals( gameType ) );
+        this.gameInfo.setType( gameType );
+        menuItemLevelRandom.setState( GameInfo.RANDOM.equals( gameType ) );
+        menuItemLevelEasy.setState( GameInfo.WINNABLE_EASY.equals( gameType ) );
+        menuItemLevelNormal.setState( GameInfo.WINNABLE_NORMAL.equals( gameType ) );
+        menuItemLevelHard.setState( GameInfo.WINNABLE_HARD.equals( gameType ) );
+        menuItemLevelTricky.setState( GameInfo.WINNABLE_TRICKY.equals( gameType ) );
     }
 
     private void pushGameState( GameState state ) {
@@ -303,26 +296,21 @@ public class Solitaire extends Frame
      */
     public void newGame() {
         // Get a random seed according to the game type
-        seed = -1;
+        gameInfo.setSeed( -1 );
         Random aRandom = new Random();
-        if (gameType.equals(WINNABLE_EASY)){
-            seed=easyGames[aRandom.nextInt(easyGames.length)];
-        }
-        if (gameType.equals(WINNABLE_NORMAL)){
-            seed=normalGames[aRandom.nextInt(normalGames.length)];
-        }
-        if (gameType.equals(WINNABLE_HARD)){
-            seed=hardGames[aRandom.nextInt(hardGames.length)];
-        }
-        if (gameType.equals(WINNABLE_TRICKY)){
-            seed=trickyGames[aRandom.nextInt(trickyGames.length)];
-        }
+        if (gameInfo.getType().equals(GameInfo.WINNABLE_EASY))
+            gameInfo.setSeed( easyGames[aRandom.nextInt(easyGames.length)] );
+        if (gameInfo.getType().equals(GameInfo.WINNABLE_NORMAL))
+            gameInfo.setSeed( normalGames[aRandom.nextInt(normalGames.length)] );
+        if (gameInfo.getType().equals(GameInfo.WINNABLE_HARD))
+            gameInfo.setSeed( hardGames[aRandom.nextInt(hardGames.length)] );
+        if (gameInfo.getType().equals(GameInfo.WINNABLE_TRICKY))
+            gameInfo.setSeed( trickyGames[aRandom.nextInt(trickyGames.length)] );
 
-        if (seed==-1){
-            seed=aRandom.nextInt(1000000);
-        }
+        if( gameInfo.getSeed() == -1 )
+            gameInfo.setSeed( aRandom.nextInt(1000000) );
         deck = new ClassicDeck( table );
-        deck.shuffle( seed );
+        deck.shuffle( gameInfo.getSeed() );
         deck.setLocation( DECK_POS.x, DECK_POS.y );
 
         revealedCards = new Stack();
@@ -371,10 +359,10 @@ public class Solitaire extends Frame
             revealedCards.push( c );
         }
         // Save the state of the game after the move
-        pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
+        pushGameState( new GameState( gameInfo, deck, revealedCards, solStack, seqStack, null, null, null ) );
 
         // Flag which cards can be moved legally
-        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+        GameState gs = new GameState( gameInfo, deck, revealedCards, solStack, seqStack );
         legalGs = gs.legalMoves( false );
 
         if( table != null )
@@ -398,10 +386,10 @@ public class Solitaire extends Frame
                 topCard.turnFaceUp();
             }
             // Save the state of the game after the move
-            pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
+            pushGameState( new GameState( gameInfo, deck, revealedCards, solStack, seqStack, null, null, null ) );
             
             // Flag which cards can be moved legally
-            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+            GameState gs = new GameState( gameInfo, deck, revealedCards, solStack, seqStack );
             legalGs = gs.legalMoves( false );
             
             if( isGameWon() )
@@ -428,10 +416,10 @@ public class Solitaire extends Frame
         }
         
         // Save the initial game state
-        pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
+        pushGameState( new GameState( gameInfo, deck, revealedCards, solStack, seqStack, null, null, null ) );
         
         // Flag which cards can be moved legally
-        GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+        GameState gs = new GameState( gameInfo, deck, revealedCards, solStack, seqStack );
         legalGs = gs.legalMoves( false );
     }
 
@@ -471,12 +459,12 @@ public class Solitaire extends Frame
     }
     class RestartListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            gameStates.get( 0 ).restoreGameState( deck, revealedCards, solStack, seqStack, null );
+            gameStates.get( 0 ).restoreGameState( gameInfo, deck, revealedCards, solStack, seqStack, null );
             gameStates = new ArrayList<GameState>();
-            pushGameState( new GameState( deck, revealedCards, solStack, seqStack, null, null, null ) );
+            pushGameState( new GameState( gameInfo, deck, revealedCards, solStack, seqStack, null, null, null ) );
             
             // Flag which cards can be moved legally
-            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+            GameState gs = new GameState( gameInfo, deck, revealedCards, solStack, seqStack );
             legalGs = gs.legalMoves( false );
             
             table.repaint();
@@ -485,10 +473,10 @@ public class Solitaire extends Frame
     class UndoListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             if( gameStates.size() - 2 >= 0 ) {
-                gameStates.get( gameStates.size() - 2 ).restoreGameState( deck, revealedCards, solStack, seqStack, null );
+                gameStates.get( gameStates.size() - 2 ).restoreGameState( gameInfo, deck, revealedCards, solStack, seqStack, null );
                 popGameState();
             }
-            GameState gs = new GameState( deck, revealedCards, solStack, seqStack );
+            GameState gs = new GameState( gameInfo, deck, revealedCards, solStack, seqStack );
 
             // Flag which cards can be moved legally
             legalGs = gs.legalMoves( false );
@@ -640,33 +628,33 @@ public class Solitaire extends Frame
                 currStack.paint( offscreenGr,menuItemHint.getState() );
 
             //Draw game info
-            if( gameType != null && seed != -1 && resBundle != null ) {
+            if( gameInfo != null && gameInfo.getType() != null && gameInfo.getSeed() != -1 && resBundle != null ) {
                 String isRandomStr = null;
                 String levelStr = null;
                 String gameInfoStr = null;
-                if( RANDOM.equals( gameType ) ) {
+                if( GameInfo.RANDOM.equals( gameInfo.getType() ) ) {
                     isRandomStr = "Random ";
-                    if( Arrays.asList( easyGames ).contains( seed ) )
+                    if( Arrays.asList( easyGames ).contains( gameInfo.getSeed() ) )
                         levelStr = "Easy";
-                    else if( Arrays.asList( normalGames ).contains( seed ) )
+                    else if( Arrays.asList( normalGames ).contains( gameInfo.getSeed() ) )
                         levelStr = "Normal";
-                    else if( Arrays.asList( hardGames ).contains( seed ) )
+                    else if( Arrays.asList( hardGames ).contains( gameInfo.getSeed() ) )
                         levelStr = "Hard";
-                    else if( Arrays.asList( trickyGames ).contains( seed ) )
+                    else if( Arrays.asList( trickyGames ).contains( gameInfo.getSeed() ) )
                         levelStr = "Tricky";
-                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoRandom" ), seed );
+                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoRandom" ), gameInfo.getSeed() );
                 }
                 else {
                     isRandomStr = "";
-                    if( gameType.equals( WINNABLE_EASY ) )
+                    if( gameInfo.getType().equals( GameInfo.WINNABLE_EASY ) )
                         levelStr = "Easy";
-                    else if( gameType.equals( WINNABLE_NORMAL ) )
+                    else if( gameInfo.getType().equals( GameInfo.WINNABLE_NORMAL ) )
                         levelStr = "Normal";
-                    if( gameType.equals( WINNABLE_HARD ) )
+                    if( gameInfo.getType().equals( GameInfo.WINNABLE_HARD ) )
                         levelStr = "Hard";
-                    if( gameType.equals( WINNABLE_TRICKY ) )
+                    if( gameInfo.getType().equals( GameInfo.WINNABLE_TRICKY ) )
                         levelStr = "Tricky";
-                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoWinnable" ), resBundle.getString( "Level" + levelStr ), seed );
+                    gameInfoStr = MessageFormat.format( resBundle.getString( "GameInfoWinnable" ), resBundle.getString( "Level" + levelStr ), gameInfo.getSeed() );
                 }
                 Font gameInfoFont = new Font( "Arial", Font.PLAIN, 14 );
                 FontMetrics gameInfoFontMetrics = offscreenGr.getFontMetrics( gameInfoFont );
@@ -1161,12 +1149,7 @@ public class Solitaire extends Frame
     protected int[] hardGames;
     protected int[] trickyGames;
     
-    // Seed unique to the game in question
-    protected int seed;
-    
-    // Game type - random, winnable-easy etc.
-    protected String gameType;
-
+    protected GameInfo gameInfo = new GameInfo();
 
     static protected ResourceBundle resBundle;
 

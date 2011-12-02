@@ -37,7 +37,9 @@ public class GameState {
     }
 
     // Is the game state the same as the passed game state?
-    public boolean equal (GameState gs){
+    public boolean equal(GameState gs){
+        if( !this.gameInfo.equals( gs.gameInfo ) )
+            return( false );
         if (this.deck.getCards().size()!=gs.deck.getCards().size() ||
                 this.revealedCards.getCards().size()!= gs.revealedCards.getCards().size()){
             return false;
@@ -294,7 +296,8 @@ public class GameState {
     // This is important otherwise the saved objects will get corrupted as the 
     // game plays out i.e. turned face up etc.
     // This is used to undo moves
-    public GameState(   ClassicDeck deck,
+    public GameState(   GameInfo gameInfo,
+                        ClassicDeck deck,
                         Stack revealedCards,
                         SolitaireStack[] solStack,
                         SequentialStack[] seqStack,
@@ -302,6 +305,7 @@ public class GameState {
                         Stack dst,
                         Stack curr) {
         super();
+        this.gameInfo = new GameInfo( gameInfo.getType(), gameInfo.getSeed() );
         this.deck=new ClassicDeck();
         for (int i = 0; i < deck.cardCount(); i++) {
             ClassicCard currentCard = ((ClassicCard)deck.elementAt(i));
@@ -341,8 +345,9 @@ public class GameState {
     // Save the state of the solitaire game
     // do NOT make a deep copy
     // this is used in the case of legal move generation
-    public GameState(   ClassicDeck deck, Stack revealedCards, SolitaireStack[] solStack, SequentialStack[] seqStack) {
+    public GameState( GameInfo gameInfo, ClassicDeck deck, Stack revealedCards, SolitaireStack[] solStack, SequentialStack[] seqStack) {
         super();
+        this.gameInfo=gameInfo;
         this.deck=deck;
         this.revealedCards=revealedCards;
         this.solStack=solStack;
@@ -351,7 +356,9 @@ public class GameState {
 
     // Restore the game state to the previous state
     // In the case of undo this would be before the last move
-    public void restoreGameState (  ClassicDeck deck, Stack revealedCards, SolitaireStack[] solStack, SequentialStack[] seqStack, Move move) {
+    public void restoreGameState( GameInfo gameInfo, ClassicDeck deck, Stack revealedCards, SolitaireStack[] solStack, SequentialStack[] seqStack, Move move) {
+        gameInfo.setType( this.gameInfo.getType() );
+        gameInfo.setSeed( this.gameInfo.getSeed() );
         for( ; !revealedCards.isEmpty(); ){
             revealedCards.pop();
         }
@@ -390,9 +397,13 @@ public class GameState {
                 solStack[i].push(c);
             }
         }
-
     }
 
+    public String toString() {
+        return( gameInfo.toString() );
+    }
+
+    protected   GameInfo            gameInfo;
     protected   ClassicDeck         deck;
     protected   Stack               revealedCards;
     protected   SolitaireStack[]    solStack;
